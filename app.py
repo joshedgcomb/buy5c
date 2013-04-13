@@ -64,8 +64,22 @@ class User_Account(Document):
         'username': basestring,
         'email': basestring,
         'password': basestring,
-        'active': bool
+        'active': bool,
+        'listings': list
     }
+
+class Listing(Document):
+    __collection__ = 'listings'
+    structure = {
+        'item': basestring,
+        'description': basestring,
+        'category': basestring,
+        'price': basestring,
+        'image': basestring,
+        'username': basestring
+    }
+    required_fields = ['item', 'category', 'price', 'username']
+    use_dot_notation = True
 
 
 
@@ -95,6 +109,27 @@ class User():
     use_dot_notation = True
 
 db.register([User_Account])
+db.register([Listing])
+
+
+@app.route('/sell', methods=['GET', 'POST'])
+def sell():
+    if request.method == 'POST':
+        listing = db.Listing()
+        listing.item = request.form['item']
+        listing.description = request.form['desc']
+        listing.category = request.form['category']
+        listing.price = request.form['price']
+        listing.image = request.form['image']
+        listing.save()
+
+        return render_template('index.html', listing=listing)
+    return render_template('index.html')
+
+@app.route('/new_listing')
+def new_listing():
+    return render_template('sell.html')
+
 
 pomona_regex = re.compile(r"[\w.]+@[\w.]*pomona.edu")
 cmc_regex = re.compile(r"[\w.]+@[\w.]*cmc.edu")
@@ -108,6 +143,7 @@ def create_account():
         email = request.form['email']
         username = request.form['username']
         password = request.form['password']
+        listings = []
 
 
         pomona_match = pomona_regex.match(email)
@@ -209,46 +245,73 @@ def results():
 
 @app.route('/a_a')
 def a_a():
-    return False
+    if 'username' in session:
+        return render_template('a_a.html',
+                               username=escape(session['username']))
+    return render_template('a_a.html')
 
 
 @app.route('/appliances')
 def appliances():
-    return False
+    if 'username' in session:
+        return render_template('appliances.html',
+                               username=escape(session['username']))
+    return render_template('appliances.html')
 
 
 @app.route('/books')
 def books():
-    return False
+    if 'username' in session:
+        return render_template('books.html',
+                               username=escape(session['username']))
+    return render_template('books.html')
 
 
 @app.route('/electronics')
 def electronics():
-    return False
+    if 'username' in session:
+        return render_template('electronics.html',
+                               username=escape(session['username']))
+    return render_template('electronics.html')
 
 
 @app.route('/furniture')
 def furniture():
-    return False
+    if 'username' in session:
+        return render_template('furniture.html',
+                               username=escape(session['username']))
+    return render_template('furniture.html')
 
 
 @app.route('/mmg')
 def mmg():
-    return False
+    if 'username' in session:
+        return render_template('mmg.html',
+                               username=escape(session['username']))
+    return render_template('mmg.html')
 
 
 @app.route('/tickets')
 def tickets():
-    return False
+    if 'username' in session:
+        return render_template('tickets.html',
+                               username=escape(session['username']))
+    return render_template('tickets.html')
 
 
 @app.route('/other')
 def other():
-    return False
+    if 'username' in session:
+        return render_template('other.html',
+                               username=escape(session['username']))
+    return render_template('other.html')
 
 @app.route('/listing')
 def listing():
-    return False
+    if 'username' in session:
+        return render_template('listing.html',
+                               username=escape(session['username']))
+    return render_template('listing.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
