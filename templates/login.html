@@ -7,14 +7,18 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
       /* Override some defaults */
       html, body {
-        background-color: #cccccc;
+        background-color: #f7f7f9;
+        
+        
+
               }
       body {
         padding-top: 30px; 
+
       }
       .container {
         width: 1000px;
@@ -22,6 +26,7 @@
 
       /* The white background content wrapper */
       .container > .content {
+        
         background-color: #cccccc;
         padding: 200px;
         margin: 0 -20px; 
@@ -31,20 +36,29 @@
         -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
                 box-shadow: 0 1px 2px rgba(0,0,0,.15);
-        opacity:0.8;
-        background-image: url(/Users/Buddy/Desktop/background2.jpg);
+        
+        background-image: url(static/images/background.jpg);
+        
+        background-size:1100px 700px;
+        background-repeat:no-repeat;
+        
       }
 
 	  .login-form {
-		margin-left: 65px;
+		margin-left: -80px;
+   
+    margin-top: 100px;
+   
 	  }
 	
 	  legend {
 		margin-right: -50px;
 		font-weight: bold;
-	  	color: #404040;
+	  	color: #466767;
 	  }
 
+
+    .h1 {font-size: 15px;}
     </style>
 
 </head>
@@ -53,15 +67,17 @@
     <div class="content">
       <div class="row">
         <div class="login-form">
-          <h1>Login</h1>
-              <form action="/login_redirect" method="POST" class="search-box">
-              <br/>
-                <input type="text" placeholder="Username" name="username">
-              <br/>
-             
+          <FONT COLOR = "ffffff"> <h1>Login</h1> </FONT>
+          <form action="{{ url_for('login_redirect') }}" method="POST" class="search-box">
+            <fieldset>
+              <div class="clearfix">
+                <input type="text" placeholder="Email" name="email">
+              </div>
+              <div class="clearfix">
                 <input type="password" placeholder="Password" name="password">
-              
-              <input type="submit" value="Login">Sign in</button>
+              </div>
+              <button class="btn primary" type="submit">Sign in</button>
+            </fieldset>
           </form>
         </div>
       </div>

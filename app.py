@@ -67,6 +67,8 @@ class User_Account(Document):
         'active': bool,
         'listings': list
     }
+    required_fields = ['username', 'email', 'password']
+    use_dot_notation = True
 
 class Listing(Document):
     __collection__ = 'listings'
@@ -105,8 +107,7 @@ class User():
     def get_id(self):
         return self.username
 
-    required_fields = ['username', 'email', 'password']
-    use_dot_notation = True
+    
 
 db.register([User_Account])
 db.register([Listing])
@@ -123,7 +124,7 @@ def sell():
         listing.image = request.form['image']
         listing.save()
 
-        return render_template('index.html', listing=listing)
+        return render_template('listing.html', listing=listing)
     return render_template('index.html')
 
 @app.route('/new_listing')
@@ -185,17 +186,18 @@ def login():
 @app.route('/login_redirect', methods=['GET', 'POST'])
 def login_redirect():
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
-        session['username'] = username
         for x in db.users.find():
-            if x['username'] == username and x['password'] == password:
+            if x['email'] == email and x['password'] == password:
+                session['username'] = email
                 x['active'] = True
                 user = User(x['username'], x['email'], x['password'], x['active'])
-                USERS[username] = user
-                return str(login_user(user))
+                USERS[email] = user
+                return redirect(url_for('index'))
 
-    return 'login failed'
+    flash('login failed')
+    return redirect(url_for('index'))
 
 
 
@@ -312,6 +314,34 @@ def listing():
         return render_template('listing.html',
                                username=escape(session['username']))
     return render_template('listing.html')
+
+
+@app.route('/account')
+def account():
+    if 'username' in session:
+        return render_template('account.html',
+                               username=escape(session['username']))
+    return redirect(url_for('login'))
+
+
+@app.route('/about')
+def about():
+    return False
+
+
+@app.route('/terms')
+def terms():
+    return False
+
+
+@app.route('/contact')
+def contact():
+    return False
+
+
+@app.route('/feedback')
+def feedback():
+    return False
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,47 +1,5 @@
-<!DOCTYPE html>
-<html>
-    <head>
-      <title>Buy 5C</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-      <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-      .sidebar-nav {
-        position: fixed;
-      }
-    </style>
-
-      <!-- Bootstrap -->
-      <link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
-    </head>
-
-
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <img class="brand_img" src="../img/buy5c.png" alt="buy5c">
-          <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-              <a href="{{/login}}" class="navbar-link">Log In</a>
-            </p>
-            <ul class="nav">
-              <li class="active">
-                <form class="navbar-search pull-left">
-                  <input type="text" class="search-query" placeholder="Search">
-                </form></li>
-              <li><a href="#about">Sell</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
+{% extends "header.html" %}
+{% block content %}
 
     <div class="container-fluid">
       <div class="row-fluid">
@@ -65,59 +23,59 @@
           <div class="row-fluid">
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ get_url[listing] }}">Stupid Cat</a></p>
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
               </div>
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ get_url[listing] }}">Stupid Cat</a></p>
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
               </div>
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ get_url[listing] }}">Stupid Cat</a></p>
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
               </div>
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ get_url[listing] }}">Stupid Cat</a></p>
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
               </div>
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ get_url[listing] }}">Stupid Cat</a></p>
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
               </div>
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ get_url[listing] }}">Stupid Cat</a></p>
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
               </div>
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ get_url[listing] }}">Stupid Cat</a></p>
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
               </div>
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ get_url[listing] }}">Stupid Cat</a></p>
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
               </div>
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ get_url[listing] }}">Stupid Cat</a></p>
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
               </div>
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ get_url[listing] }}">Stupid Cat</a></p>
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
               </div>
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ get_url[listing] }}">Stupid Cat</a></p>
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
               </div>
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ get_url[listing] }}">Stupid Cat</a></p>
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
               </div>
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ get_url[listing] }}">Stupid Cat</a></p>
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
               </div>
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ get_url[listing] }}">Stupid Cat</a></p>
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
               </div>
 
               
@@ -136,7 +94,7 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    
+    {% endblock %}
 
   </body>
 </html>

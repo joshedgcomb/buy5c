@@ -9,7 +9,7 @@ pitzer_regex = re.compile(r"[\w.]+@[\w.]*pitzer.edu")
 a = 'joshua.edgcomb@pomona.edu'
 b = 'jte02011@pomona.edu'
 c = 'jte02011@mymail.pomona.edu'
-d = 'a'
+
 
 print pomona_regex.match(a)
 print pomona_regex.match(b)
