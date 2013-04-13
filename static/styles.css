@@ -1,0 +1,65 @@
+body {
+	font-family: 'Helvetica';
+	background-image: url('grey_wash_wall.png');
+}
+
+
+a, h1, h2 {
+    color: #179DE6;
+}
+
+h1 {
+    font-family: 'Helvetica';
+    font-size: 2.3em;
+}
+
+h2 {
+    font-family: 'Helvetica';
+    font-size: 1.3em;
+}
+
+input[type=text] {
+    border: 2px solid #ccc;
+    padding: 5px;
+    font-size: 1em; 
+}
+
+ul {
+	list-style-type: none;
+	padding:0em;
+	margin:0;
+}
+
+#category_head{
+    color: #EB345B;
+    font-size: 1.1em;
+}
+
+.category_elnt {
+	padding-left: 1em;
+}
+
+.category_box{
+	position:fixed;
+	top: 8em;
+	left: 2em;
+   	width: 10em;
+   	border: 0px solid #7A7A7A;
+   	border-radius: 5px;
+   	padding: .7em;
+   	background: white;
+}
+
+.entries {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.entry-title {
+    margin-bottom: 0;
+}
+
+.entry-info {
+    margin-top: 0; 
+}

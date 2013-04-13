@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Buy5C</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+
+      <!-- Bootstrap -->
+      <link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
+      <script src="http://code.jquery.com/jquery-latest.min.js"
+        type="text/javascript"></script>
+    </head>
+    <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">Buy5C</a>
+          <div class="nav-collapse collapse">
+            <p class="navbar-text pull-right">
+              Logged in as <a href="#" class="navbar-link">Username</a>
+            </p>
+            <ul class="nav">
+              <li class="active">
+                <form class="navbar-search pull-left">
+                  <input type="text" class="search-query" placeholder="Search">
+                </form></li>
+              <li><a href="#about">Sell</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Select Category</li>
+              <li class="active cat_elnt">Everything</li>
+              <li class='cat_elnt'>Apparel/Accesories</li>
+              <li class='cat_elnt'>Appliances</li>
+              <li class='cat_elnt'>Books</li>
+              <li class='cat_elnt'>Electronics</li>
+              <li class='cat_elnt'>Furniture</li>
+              <li class='cat_elnt'>Movies, Music, Games</li>
+              <li class='cat_elnt'>Tickets</li>
+              <li class='cat_elnt'>Other</li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+          <div class="row-fluid">
+            <div class="span4">
+              
+              
+            </div><!--/span-->
+            </div><!--/span-->
+          </div><!--/row-->
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script type="text/javascript">
+      window.load= {
+        $('.cat_elnt').click(
+          $('.active').removeClass('active');
+          $self.addClass('active');
+        };
+      };
+
+
+      
+    </script>
+
+  </body>
+</html>
