@@ -48,7 +48,7 @@ a:hover,a:focus{color:#005580;text-decoration:underline;}
 .span7{width:540px;}
 .span6{width:460px;}
 .span5{width:380px;}
-.span4{width:300px; background-color: #eee;}
+.span4{width:300px; background-color:;}
 .span3{width:220px;}
 .span2{width:140px;}
 .span1{width:60px;}
@@ -137,7 +137,7 @@ h2{font-size:31.5px;}
 h3{font-size:24.5px;}
 h4{font-size:17.5px;}
 h5{font-size:14px;}
-h6{font-size:11.9px;}
+h6{font-size:11.9px; color:#ABABAB;}
 h1 small{font-size:24.5px;}
 h2 small{font-size:17.5px;}
 h3 small{font-size:14px;}

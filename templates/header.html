@@ -26,7 +26,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <img class="brand_img" src="static/images/buy5c.png" alt="buy5c">
+          <a href="{{url_for('index')}}"><img class="brand_img" src="static/images/buy5c.png" alt="buy5c"></a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
               {% if not username %}<a href="{{ url_for('login') }}" class="navbar-link">Log In</a>
@@ -52,9 +52,13 @@
       </div>
     </div>
 
+<<<<<<< HEAD
 
     {% block content %}{% endblock %}
 
+=======
+    
+>>>>>>> 7e919fc9e2cbc83570cd575fd4a363c1ea12485c
 
     <!--The Footer-->  
       <div class="navbar navbar-fixed-bottom">
@@ -72,26 +76,6 @@
         </div>
       </div>
       </div>
-
-
-    
-
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../assets/js/jquery.js"></script>
-    <script src="../assets/js/bootstrap-transition.js"></script>
-    <script src="../assets/js/bootstrap-alert.js"></script>
-    <script src="../assets/js/bootstrap-modal.js"></script>
-    <script src="../assets/js/bootstrap-dropdown.js"></script>
-    <script src="../assets/js/bootstrap-scrollspy.js"></script>
-    <script src="../assets/js/bootstrap-tab.js"></script>
-    <script src="../assets/js/bootstrap-tooltip.js"></script>
-    <script src="../assets/js/bootstrap-popover.js"></script>
-    <script src="../assets/js/bootstrap-button.js"></script>
-    <script src="../assets/js/bootstrap-collapse.js"></script>
-    <script src="../assets/js/bootstrap-carousel.js"></script>
-    <script src="../assets/js/bootstrap-typeahead.js"></script>
 
   </body>
 </html>

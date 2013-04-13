@@ -1,5 +1,47 @@
-{% extends "header.html" %}
-{% block content %}
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Buy 5C</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      .sidebar-nav {
+        position: fixed;
+      }
+    </style>
+
+      <!-- Bootstrap -->
+      <link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    </head>
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="{{url_for('index')}}"><img class="brand_img" src="../img/buy5c.png" alt="buy5c"></a>
+          <div class="nav-collapse collapse">
+            <p class="navbar-text pull-right">
+              <a href="{{url_for('login')}}" class="navbar-link">Log In</a>
+            </p>
+            <ul class="nav">
+              <li class="active">
+                <form class="navbar-search pull-left">
+                  <input type="text" class="search-query" placeholder="Search">
+                </form></li>
+              <li><a href="#about">Sell</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
 
     <div class="container-fluid">
       <div class="row-fluid">
@@ -21,37 +63,34 @@
         </div><!--/span-->
         <div class="span9">
           <div class="row-fluid">
-              <div class="thumbnail">
-                <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
+              <div class="thumbnail" style="width:200px;height:200px;overflow:hidden;">
+                <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSi1KR9atQTzjnGlVxUjBshbJ3SVIO3uBsyBH3DbxJlhtfdZE7YsA"
+                width = "200" height = "200" alt="listing">
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Dell Laptop $400</a></p>
+              </div>
+              <div class="thumbnail" style="width:200px;height:200px;overflow:hidden;">
+                <img src="http://www.funofart.com/wp-content/uploads/2013/01/custom-designed-sneakers-14.jpg"
+                 width = "200" alt="listing">
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Google Sneakers $80</a></p>
+              </div>
+              <div class="thumbnail" style="width:200px;height:200px;overflow:hidden;">
+                <img src="http://www.brothersrugs.com/productcart/pc/catalog/4031%20futon%20bed%20%20opened%20display.jpg" width = "200" alt="listing">
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Comfy Futon $50 </a></p>
+              </div>
+              <div class="thumbnail" style="width:200px;height:200px;overflow:hidden;">
+                <img src="http://www.safestchina.com/products_image/prada-bags-45132.jpg" 
+                width = "200" alt="listing">
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Prada Bag $150</a></p>
+              </div>
+              <div class="thumbnail" style="width:200px;height:200px;overflow:hidden;">
+                <img src="http://www.omiru.com/wp-content/uploads/2009/08/lindsay-voile-sundress_080909.jpg" 
+                width = "200" alt="listing">
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}"> Pretty Sundress $30</a></p>
               </div>
               <div class="thumbnail">
-                <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
-              </div>
-              <div class="thumbnail">
-                <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
-              </div>
-              <div class="thumbnail">
-                <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
-              </div>
-              <div class="thumbnail">
-                <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
-              </div>
-              <div class="thumbnail">
-                <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
-              </div>
-              <div class="thumbnail">
-                <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
-              </div>
-              <div class="thumbnail">
-                <img src="http://www.placekitten.com/200/150" alt="listing">
-                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">Stupid Cat</a></p>
+                <img src="http://www.robf.com.au/wp-content/uploads/2012/11/Halo_4_box_artwork-e1352151360929-150x150.png"
+                width =  "200" alt="listing">
+                <p align=center><a class="listing_name" href="{{ url_for('listing') }}">New Halo 4 $35</a></p>
               </div>
               <div class="thumbnail">
                 <img src="http://www.placekitten.com/200/150" alt="listing">
@@ -94,7 +133,7 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    {% endblock %}
+    
 
   </body>
 </html>
