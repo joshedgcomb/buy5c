@@ -1,0 +1,45 @@
+{% extends "header.html" %}
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Select Category</li>
+              <li><a href="{{ url_for('index') }}">Everything</a></li>
+              <li><a href="{{ url_for('a_a') }}">Apparel/Accesories</a></li>
+              <li><a href="{{ url_for('appliances') }}">Appliances</a></li>
+              <li><a href="{{ url_for('books') }}">Books</a></li>
+              <li><a href="{{ url_for('electronics') }}">Electronics</a></li>
+              <li class="active"><a href="{{ url_for('furniture') }}">Furniture</a></li>
+              <li><a href="{{ url_for('mmg') }}">Movies, Music, Games</a></li>
+              <li><a href="{{ url_for('tickets') }}">Tickets</a></li>
+              <li><a href="{{ url_for('other') }}">Other</a></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+          <div class="row-fluid">
+            <div class="span4">
+              
+              
+            </div><!--/span-->
+            </div><!--/span-->
+          </div><!--/row-->
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    
+
+  </body>
+</html>

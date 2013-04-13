@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>buy5c - new account</title>
+    </head>
+    <body>
+        <div>
+            <h1>new account</h1>
+            <form action="{{ url_for('create_account') }}" method="POST"
+                    class="search-box">
+                    <input type="text" size="30" placeholder="Username" name="username">
+                     <input type="text" size="20" placeholder="Email" name="email">
+                     <input type="text" size="20" placeholder="Password" name="password">
+                     <input type="submit" value="Create Account">
+            </form>
+            
+        </div>
+    </body>
+</html>
