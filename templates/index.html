@@ -26,10 +26,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a href="{{url_for('index')}}"><img class="brand_img" src="../img/buy5c.png" alt="buy5c"></a>
+          <a href="{{url_for('index')}}"><img class="brand_img" src="static/images/buy5c.png" alt="buy5c"></a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
+            {% if username %}
+              Hello, {{username}}! 
+              <a href="{{url_for('logout')}}" class="navbar-link">Logout</a>
+            {% else %}
               <a href="{{url_for('login')}}" class="navbar-link">Log In</a>
+            {% endif %}
             </p>
             <ul class="nav">
               <li class="active">

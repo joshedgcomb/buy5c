@@ -1,7 +1,7 @@
 from flask.ext.wtf import Form, TextField, BooleanField
-from flask.ext.wtf import Required
+from flask.ext.wtf import Required, validators
 
 
-class LoginForm(Form):
-    openid = TextField('openid', validators=[Required()])
-    remember_me = BooleanField('remember_me', default=False)
+class login_form(Form):
+    email = TextField('email', [validators.Required()])
+    password = TextField('password', [validators.Required()])  
