@@ -20,6 +20,9 @@ from forms import *
 
 
 # Some basic regular expressions to match 5C email addresses
+# These are not yet actually used, so you can use literally
+# any string you want when making a new account. It doesn't
+# even have to be an actual email address.
 pomona_regex = re.compile(r"[\w.]+@[\w.]*pomona.edu")
 cmc_regex = re.compile(r"[\w.]+@[\w.]*cmc.edu")
 hmc_regex = re.compile(r"[\w.]+@[\w.]*hmc.edu")
@@ -27,92 +30,84 @@ scripps_regex = re.compile(r"[\w.]+@[\w.]*scripps.edu")
 pitzer_regex = re.compile(r"[\w.]+@[\w.]*pitzer.edu")
 
 
-@app.route('/new_account')
-def new_account():
-    return render_template('new_account.html')
-
-
-@app.route('/sell', methods=['GET', 'POST'])
-def sell():
-    if request.method == 'POST':
-        listing = db.Listing()
-        listing.item = request.form['item']
-        listing.description = request.form['desc']
-        listing.category = request.form['category']
-        listing.price = request.form['price']
-        listing.image = request.form['image']
-        listing.save()
-
-        return render_template('listing.html', listing=listing)
-    return render_template('index.html')
-
-
-@app.route('/new_listing')
-def new_listing():
-    return render_template('sell.html')
-
-
-@app.route('/create_account', methods=['GET', 'POST'])
-def create_account():
-    if request.method == 'POST':
-        email = request.form['email']
-        username = request.form['username']
-        password = request.form['password']
-
-        pomona_match = pomona_regex.match(email)
-        hmc_match = hmc_regex.match(email)
-        cmc_match = cmc_regex.match(email)
-        pitzer_match = pitzer_regex.match(email)
-        scripps_match = scripps_regex.match(email)
-
-        if ((pomona_match is None) and (hmc_match is None) and
-            (cmc_match is None) and (pitzer_match is None) and
-                                    (scripps_match is None)):
-            return 'fission mailed'
-
-        return 'success'
-    return render_template(url_for('index'))
-
-
+# Before every request that's made, this will run, setting
+# flask's global variable g.user to the user currently logged
+# in from the computer making the request, allowing for easy
+# access.
 @app.before_request
 def before_request():
     g.user = current_user
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if g.user is not None and g.user.is_authenticated():
-        return 'user not authenticated'
-
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        user = User.query.filter(User.email == email).first()
-        if user is not None and user.password == password:
-            login_user(user)
-            session['email'] = email
-            flash('Logged in successfully.')
-            print (current_user)
-        return 'username or password invalid'
-    return render_template('login.html')
-
-
+# function telling the login manager how to load a user
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
 
-@app.route('/login_redirect', methods=['GET', 'POST'])
-def login_redirect():
+# The basic login page and function.
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    # If a user is already logged in. is_authenticated is a function
+    # of the User class in models.py
+    if g.user is not None and g.user.is_authenticated():
+        return 'user already logged in'
+
+    # If the user is sending information (i.e. trying to log in),
+    # checks the selected email against the users in the database.
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        session['username'] = email
 
-    flash('login failed')
-    return redirect(url_for('listing'))
+        # queries the database for a user with the email submitted
+        user = User.query.filter(User.email == email).first()
+
+        # if the user was in the database and the password matches,
+        # logs the user in and returns a message.
+        if user is not None and user.password == password:
+            login_user(user)
+            session['email'] = email
+            flash('Logged in successfully.')
+            return 'login successful'
+
+        return 'username or password invalid'
+
+    # returns login form if request method was GET
+    return render_template('login.html')
 
 
+# The form and function for creating a new account.
+@app.route('/new_account', methods=['GET', 'POST'])
+def new_account():
+
+    # if a user is already logged in
+    if g.user is not None and g.user.is_authenticated():
+        return 'please logout before attempting to create a new account'
+
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = User.query.filter(User.email == email).first()
+        if user is not None:
+            return 'an account with that email already exists'
+
+       # if no user with that email exists, creates one and adds it to the database
+        else:
+            user = User(email, password)
+            db.session.add(user)
+            db.session.commit()
+            return ('account successfully created. go to buy5c.com/login' +
+                    ' to log in')
+
+    return render_template('new_account.html')
+
+# sell page and function: not yet implemented
+@app.route('/sell', methods=['GET', 'POST'])
+def sell():
+    return 'sell not yet implemented'
+
+
+# 
 @app.route("/logout")
 def logout():
     session.pop('email', None)
@@ -124,92 +119,93 @@ def logout():
 @app.route('/')
 @app.route('/index')
 def index():
-    user = g.user
-    print(current_user)
-    if current_user.is_authenticated():
+    # prints current user 
+    print(g.user)
+
+    if g.user.is_authenticated():
         return render_template('index.html',
-                               username='asdf')
+                               username=g.user.email)
     return render_template('index.html')
 
 
 
 @app.route('/a_a')
 def a_a():
-    if 'username' in session:
+    if g.user is not None and g.user.is_authenticated():
         return render_template('a_a.html',
-                               username=escape(session['username']))
+                               username=g.user.email)
     return render_template('a_a.html')
 
 
 @app.route('/appliances')
 def appliances():
-    if 'username' in session:
+    if g.user is not None and g.user.is_authenticated():
         return render_template('appliances.html',
-                               username=escape(session['username']))
+                               username=g.user.email)
     return render_template('appliances.html')
 
 
 @app.route('/books')
 def books():
-    if 'username' in session:
+    if g.user is not None and g.user.is_authenticated():
         return render_template('books.html',
-                               username=escape(session['username']))
+                               username=g.user.email)
     return render_template('books.html')
 
 
 @app.route('/electronics')
 def electronics():
-    if 'username' in session:
+    if g.user is not None and g.user.is_authenticated():
         return render_template('electronics.html',
-                               username=escape(session['username']))
+                               username=g.user.email)
     return render_template('electronics.html')
 
 
 @app.route('/furniture')
 def furniture():
-    if 'username' in session:
+    if g.user is not None and g.user.is_authenticated():
         return render_template('furniture.html',
-                               username=escape(session['username']))
+                               username=g.user.email)
     return render_template('furniture.html')
 
 
 @app.route('/mmg')
 def mmg():
-    if 'username' in session:
+    if g.user is not None and g.user.is_authenticated():
         return render_template('mmg.html',
-                               username=escape(session['username']))
+                               username=g.user.email)
     return render_template('mmg.html')
 
 
 @app.route('/tickets')
 def tickets():
-    if 'username' in session:
+    if g.user is not None and g.user.is_authenticated():
         return render_template('tickets.html',
-                               username=escape(session['username']))
+                               username=g.user.email)
     return render_template('tickets.html')
 
 
 @app.route('/other')
 def other():
-    if 'username' in session:
+    if g.user is not None and g.user.is_authenticated():
         return render_template('other.html',
-                               username=escape(session['username']))
+                               username=g.user.email)
     return render_template('other.html')
 
 
 @app.route('/listing')
 def listing():
-    if 'username' in session:
+    if g.user is not None and g.user.is_authenticated():
         return render_template('listing.html',
-                               username=escape(session['username']))
+                               username=g.user.email)
     return render_template('listing.html')
 
 
 @app.route('/account')
 def account():
-    if 'username' in session:
+    if g.user is not None and g.user.is_authenticated():
         return render_template('account.html',
-                               username=escape(session['username']))
+                               username=g.user.email)
     return redirect(url_for('login'))
 
 

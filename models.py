@@ -16,9 +16,9 @@ class User(db.Model):
 
     listings = db.relationship('Listing', backref=db.backref('author', lazy='dynamic'))
 
-    def __init__(self, password, email, role=ROLE_USER):
-        self. password = password
+    def __init__(self, email, password, role=ROLE_USER):
         self.email = email
+        self.password = password
         self.role = role
 
     def __repr__(self):
