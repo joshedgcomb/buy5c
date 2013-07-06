@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>buy5c - new account</title>
+    </head>
+    <body>
+        <div>
+            <h1>new account</h1>
+            <form action="{{ url_for('sell') }}" method="POST"
+                    class="search-box">
+                     <input type="text" size="60" placeholder="Title" name="title">
+                     <input type="text" size="60" placeholder="Description" name="description">
+                     <select name="category">
+                        <option value=""></option>
+                        <option value="apparel">Apparel/Accessories</option>
+                        <option value="appliances">Appliances</option>
+                        <option value="books">Books</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="furniture">Furniture</option>
+                        <option value="movies">Movies, Music, Games</option>
+                        <option value = "tickets">Tickets</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="file" name="image" size="40" placeholder="Upload an image (Optional)">
+                     <input type="submit" value="Create Listing">
+            </form>
+            
+        </div>
+    </body>
+</html>

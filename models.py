@@ -66,10 +66,11 @@ class Listing(Base):
                             index=True)
     image = db.Column(db.BLOB)
 
-    def __init__(self, title, body, category_id, time_posted, image=None):
+    def __init__(self, title, body, category_id, user_id, time_posted, image=None):
         self.title = title
         self.body = body
         self.category_id = category_id
+        self.user_id = user_id
         self.time_posted = time_posted
         self.image = image
 

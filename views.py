@@ -16,6 +16,7 @@ from flask.ext.login import *
 from models import *
 from app import db, app, lm
 from forms import *
+from datetime import datetime
 
 
 # Some basic regular expressions to match 5C email addresses
@@ -103,7 +104,29 @@ def new_account():
 # sell page and function: not yet implemented
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
-    return 'sell not yet implemented'
+    if not g.user.is_authenticated():
+        return 'you must be logged in to sell an item'
+
+    if request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        category = request.form['category']
+        image = None
+        if 'image' in request.files:
+            image = request.files['image']
+        if len(title) == 0:
+            return 'please include a title for your item'
+        if len(description) == 0:
+            return 'please include a description for your item'
+        if len(category) == 0:
+            return 'please select a category for your item'
+        category_id = session.query(Category).filter(Category.name == category).first()
+
+        listing = Listing(title, description, category_id, g.user.id, datetime.utcnow(), image)
+        session.add(listing)
+        session.commit()
+        return 'listing created'
+    return render_template('sell.html') 
 
 
 #
