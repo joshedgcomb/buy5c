@@ -4,7 +4,6 @@ import re
 from flask import (
     Flask,
     render_template,
-    session,
     redirect,
     request,
     url_for,
@@ -42,7 +41,7 @@ def before_request():
 # function telling the login manager how to load a user
 @lm.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return session.query(User).get(int(id))
 
 
 # The basic login page and function.
@@ -60,13 +59,12 @@ def login():
         password = request.form['password']
 
         # queries the database for a user with the email submitted
-        user = User.query.filter(User.email == email).first()
+        user = session.query(User).filter(User.email == email).first()
 
         # if the user was in the database and the password matches,
         # logs the user in and returns a message.
         if user is not None and user.password == password:
             login_user(user)
-            session['email'] = email
             flash('Logged in successfully.')
             return 'login successful'
 
@@ -87,19 +85,20 @@ def new_account():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        user = User.query.filter(User.email == email).first()
+        user = session.query(User).filter(User.email == email).first()
         if user is not None:
             return 'an account with that email already exists'
 
        # if no user with that email exists, creates one and adds it to the database
         else:
             user = User(email, password)
-            db.session.add(user)
-            db.session.commit()
+            session.add(user)
+            session.commit()
             return ('account successfully created. go to buy5c.com/login' +
                     ' to log in')
 
     return render_template('new_account.html')
+
 
 # sell page and function: not yet implemented
 @app.route('/sell', methods=['GET', 'POST'])
@@ -107,10 +106,9 @@ def sell():
     return 'sell not yet implemented'
 
 
-# 
+#
 @app.route("/logout")
 def logout():
-    session.pop('email', None)
     logout_user()
     flash("Logged out.")
     return redirect('/index')
@@ -119,14 +117,13 @@ def logout():
 @app.route('/')
 @app.route('/index')
 def index():
-    # prints current user 
+    # prints current user
     print(g.user)
 
     if g.user.is_authenticated():
         return render_template('index.html',
                                username=g.user.email)
     return render_template('index.html')
-
 
 
 @app.route('/a_a')
