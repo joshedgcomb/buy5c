@@ -50,7 +50,7 @@ def load_user(id):
 def login():
     # If a user is already logged in. is_authenticated is a function
     # of the User class in models.py
-    if g.user is not None and g.user.is_authenticated():
+    if g.user.is_authenticated():
         return 'user already logged in'
 
     # If the user is sending information (i.e. trying to log in),
@@ -80,7 +80,7 @@ def login():
 def new_account():
 
     # if a user is already logged in
-    if g.user is not None and g.user.is_authenticated():
+    if g.user.is_authenticated():
         return 'please logout before attempting to create a new account'
 
     if request.method == 'POST':
@@ -151,7 +151,7 @@ def index():
 
 @app.route('/a_a')
 def a_a():
-    if g.user is not None and g.user.is_authenticated():
+    if g.user.is_authenticated():
         return render_template('a_a.html',
                                username=g.user.email)
     return render_template('a_a.html')
@@ -159,7 +159,7 @@ def a_a():
 
 @app.route('/appliances')
 def appliances():
-    if g.user is not None and g.user.is_authenticated():
+    if g.user.is_authenticated():
         return render_template('appliances.html',
                                username=g.user.email)
     return render_template('appliances.html')
@@ -167,7 +167,7 @@ def appliances():
 
 @app.route('/books')
 def books():
-    if g.user is not None and g.user.is_authenticated():
+    if g.user.is_authenticated():
         return render_template('books.html',
                                username=g.user.email)
     return render_template('books.html')
@@ -175,7 +175,7 @@ def books():
 
 @app.route('/electronics')
 def electronics():
-    if g.user is not None and g.user.is_authenticated():
+    if g.user.is_authenticated():
         return render_template('electronics.html',
                                username=g.user.email)
     return render_template('electronics.html')
@@ -183,7 +183,7 @@ def electronics():
 
 @app.route('/furniture')
 def furniture():
-    if g.user is not None and g.user.is_authenticated():
+    if g.user.is_authenticated():
         return render_template('furniture.html',
                                username=g.user.email)
     return render_template('furniture.html')
@@ -191,7 +191,7 @@ def furniture():
 
 @app.route('/mmg')
 def mmg():
-    if g.user is not None and g.user.is_authenticated():
+    if g.user.is_authenticated():
         return render_template('mmg.html',
                                username=g.user.email)
     return render_template('mmg.html')
@@ -199,7 +199,7 @@ def mmg():
 
 @app.route('/tickets')
 def tickets():
-    if g.user is not None and g.user.is_authenticated():
+    if g.user.is_authenticated():
         return render_template('tickets.html',
                                username=g.user.email)
     return render_template('tickets.html')
@@ -207,7 +207,7 @@ def tickets():
 
 @app.route('/other')
 def other():
-    if g.user is not None and g.user.is_authenticated():
+    if g.user.is_authenticated():
         return render_template('other.html',
                                username=g.user.email)
     return render_template('other.html')
@@ -215,7 +215,7 @@ def other():
 
 @app.route('/listing')
 def listing():
-    if g.user is not None and g.user.is_authenticated():
+    if g.user.is_authenticated():
         return render_template('listing.html',
                                username=g.user.email)
     return render_template('listing.html')
@@ -223,7 +223,7 @@ def listing():
 
 @app.route('/account')
 def account():
-    if g.user is not None and g.user.is_authenticated():
+    if g.user.is_authenticated():
         return render_template('account.html',
                                username=g.user.email)
     return redirect(url_for('login'))
