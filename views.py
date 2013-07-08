@@ -9,14 +9,15 @@ from flask import (
     url_for,
     g,
     flash,
-    escape
+    escape,
+    Response
 )
 
-from flask.ext.login import *
+from flask.ext.login import current_user, login_user, logout_user
 from models import *
 from app import db, app, lm
-from forms import *
 from datetime import datetime
+from sqlalchemy import BLOB
 
 
 # Some basic regular expressions to match 5C email addresses
@@ -28,6 +29,16 @@ cmc_regex = re.compile(r"[\w.]+@[\w.]*cmc.edu")
 hmc_regex = re.compile(r"[\w.]+@[\w.]*hmc.edu")
 scripps_regex = re.compile(r"[\w.]+@[\w.]*scripps.edu")
 pitzer_regex = re.compile(r"[\w.]+@[\w.]*pitzer.edu")
+
+
+@app.route('/get_image')
+def get_image():
+    get_image_aux()
+
+
+def get_image_aux():
+    image = session.query(Listing).filter(Listing.title == 'lkjl').first().image
+    return Response(image, mimetype='image/jpeg')
 
 
 # Before every request that's made, this will run, setting
@@ -113,7 +124,8 @@ def sell():
         category = request.form['category']
         image = None
         if 'image' in request.files:
-            image = request.files['image']
+            image_file = request.files['image'].read()
+            image = buffer(image_file)
         if len(title) == 0:
             return 'please include a title for your item'
         if len(description) == 0:
@@ -126,7 +138,7 @@ def sell():
         session.add(listing)
         session.commit()
         return 'listing created'
-    return render_template('sell.html') 
+    return render_template('sell.html')
 
 
 #

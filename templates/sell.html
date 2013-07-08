@@ -7,8 +7,8 @@
     <body>
         <div>
             <h1>new account</h1>
-            <form action="{{ url_for('sell') }}" method="POST"
-                    class="search-box">
+            <form action="{{ url_for('sell') }}" method="POST" enctype="multipart/form-data">
+                    <class="search-box">
                      <input type="text" size="60" placeholder="Title" name="title">
                      <input type="text" size="60" placeholder="Description" name="description">
                      <select name="category">
