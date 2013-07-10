@@ -1,5 +1,6 @@
 import os
 import re
+import io
 
 from flask import (
     Flask,
@@ -10,7 +11,8 @@ from flask import (
     g,
     flash,
     escape,
-    Response
+    Response,
+    send_file
 )
 
 from flask.ext.login import current_user, login_user, logout_user
@@ -31,14 +33,21 @@ scripps_regex = re.compile(r"[\w.]+@[\w.]*scripps.edu")
 pitzer_regex = re.compile(r"[\w.]+@[\w.]*pitzer.edu")
 
 
-@app.route('/get_image')
-def get_image():
-    get_image_aux()
+# Used to check if a user's price is a number
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
 
 
-def get_image_aux():
-    image = session.query(Listing).filter(Listing.title == 'lkjl').first().image
-    return Response(image, mimetype='image/jpeg')
+@app.route('/get_image/<listing_id>')
+def get_image(listing_id):
+    image_binary = session.query(Listing).get(listing_id).image
+    if image_binary is None:
+        return False
+    return send_file(io.BytesIO(image_binary))
 
 
 # Before every request that's made, this will run, setting
@@ -122,19 +131,27 @@ def sell():
         title = request.form['title']
         description = request.form['description']
         category = request.form['category']
+        price = request.form['price']
         image = None
         if 'image' in request.files:
             image_file = request.files['image'].read()
             image = buffer(image_file)
+
         if len(title) == 0:
             return 'please include a title for your item'
+
         if len(description) == 0:
             return 'please include a description for your item'
+
         if len(category) == 0:
             return 'please select a category for your item'
+
+        if not is_number(price):
+            return 'please input a price for your item'
+
         category_id = session.query(Category).filter(Category.name == category).first()
 
-        listing = Listing(title, description, category_id, g.user.id, datetime.utcnow(), image)
+        listing = Listing(title, description, category_id, g.user.id, datetime.utcnow(), price, image)
         session.add(listing)
         session.commit()
         return 'listing created'
@@ -229,7 +246,9 @@ def other():
 def listing():
     if g.user.is_authenticated():
         return render_template('listing.html',
-                               username=g.user.email)
+                               username=g.user.email,
+                               title='balls,balls,balls',
+                               price='75')
     return render_template('listing.html')
 
 

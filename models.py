@@ -64,14 +64,16 @@ class Listing(Base):
 
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'),
                             index=True)
+    price = db.Column(db.String(64))
     image = db.Column(db.BLOB)
 
-    def __init__(self, title, body, category_id, user_id, time_posted, image=None):
+    def __init__(self, title, body, category_id, user_id, time_posted, price, image=None):
         self.title = title
         self.body = body
         self.category_id = category_id
         self.user_id = user_id
         self.time_posted = time_posted
+        self.price = price
         self.image = image
 
     def __repr__(self):
