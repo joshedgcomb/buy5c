@@ -1,25 +1,20 @@
-import os
 import re
 import io
 
 from flask import (
-    Flask,
     render_template,
     redirect,
     request,
     url_for,
     g,
     flash,
-    escape,
-    Response,
     send_file
 )
 
 from flask.ext.login import current_user, login_user, logout_user
 from models import *
-from app import db, app, lm
+from app import app, lm
 from datetime import datetime
-from sqlalchemy import BLOB
 
 
 # Some basic regular expressions to match 5C email addresses
@@ -96,8 +91,8 @@ def login():
 
 
 # The form and function for creating a new account.
-@app.route('/new_account', methods=['GET', 'POST'])
-def new_account():
+@app.route('/register', methods=['GET', 'POST'])
+def register():
 
     # if a user is already logged in
     if g.user.is_authenticated():
@@ -178,8 +173,8 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/a_a')
-def a_a():
+@app.route('/a_a/')
+def a_a(balls):
     if g.user.is_authenticated():
         return render_template('a_a.html',
                                username=g.user.email)
@@ -242,21 +237,21 @@ def other():
     return render_template('other.html')
 
 
-@app.route('/listing')
-def listing():
-    if g.user.is_authenticated():
-        return render_template('listing.html',
-                               username=g.user.email,
-                               title='balls,balls,balls',
-                               price='75')
-    return render_template('listing.html')
+@app.route('/listing/<listing_id>')
+def listing(listing_id):
+    listing = session.query(Listing).get(listing_id)
+    return render_template('listing.html',
+                           email=g.user.email,
+                           listing_id=listing_id,
+                           title=listing.title,
+                           body=listing.body,
+                           price=listing.price)
 
 
 @app.route('/account')
 def account():
     if g.user.is_authenticated():
-        return render_template('account.html',
-                               username=g.user.email)
+        return render_template('header.html')
     return redirect(url_for('login'))
 
 

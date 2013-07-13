@@ -10,7 +10,8 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    
     <style type="text/css">
       body {
         padding-top: 20px;
@@ -48,7 +49,7 @@
         margin-top: 28px;
       }
     </style>
-    <link href="../css/bootstrap-responsive.css" rel="stylesheet">
+   <link href="../static/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -70,10 +71,10 @@
       <div class="jumbotron">
         <h1>{{title}} - {{price}}</h1>
         <hr>
-        <img src="{{url_for('get_image_aux')}}"
+        <img class="brand_img" src="static/images/buy5c.png"
              width = "350" alt="listing">
              <hr>
-        <p class="lead">A pair of lightly used Google sneakers. Selling because I switched to Bing.</p>
+        <p class="lead">{{body}}</p>
 
 			<form action="MAILTO:kevin.byrne@pomona.edu" method="POST" enctype="text/plain">
 				<input class="btn btn-large btn-sucess" type="submit" value="Buy!">
@@ -84,6 +85,7 @@
 
 
     </div> <!-- /container -->
-{% endblock %}
+
   </body>
+  {% endblock %}
 </html>
