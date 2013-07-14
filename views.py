@@ -13,7 +13,7 @@ from flask import (
 
 from flask.ext.login import current_user, login_user, logout_user
 from models import *
-from app import app, lm
+from app import app, lm, pwd_context
 from datetime import datetime
 
 
@@ -79,7 +79,7 @@ def login():
 
         # if the user was in the database and the password matches,
         # logs the user in and returns a message.
-        if user is not None and user.password == password:
+        if user is not None and pwd_context.verify(password, user.password):
             login_user(user)
             flash('Logged in successfully.')
             return 'login successful'
@@ -107,6 +107,7 @@ def register():
 
        # if no user with that email exists, creates one and adds it to the database
         else:
+            password = pwd_context.encrypt(password)
             user = User(email, password)
             session.add(user)
             session.commit()
