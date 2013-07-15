@@ -71,8 +71,7 @@
       <div class="jumbotron">
         <h1>{{title}} - {{price}}</h1>
         <hr>
-        <img class="brand_img" src="static/images/buy5c.png"
-             width = "350" alt="listing">
+        <img src="{{url_for('get_image', listing_id=listing_id)}}">
              <hr>
         <p class="lead">{{body}}</p>
 

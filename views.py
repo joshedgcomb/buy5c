@@ -37,7 +37,7 @@ def is_number(s):
         return False
 
 
-@app.route('/get_image/<listing_id>')
+@app.route('/get_image/<int:listing_id>')
 def get_image(listing_id):
     image_binary = session.query(Listing).get(listing_id).image
     if image_binary is None:
@@ -151,7 +151,7 @@ def sell():
         session.add(listing)
         session.commit()
         return 'listing created'
-    return render_template('sell.html')
+    return render_template('sell.html', email=g.user.email)
 
 
 #
