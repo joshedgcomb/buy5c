@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 {% extends 'header.html' %}
 
+{% set categories = [
+    ('index', 'Everything'),
+    ('a_a', 'Apparel/Accessories'),
+    ('appliances', 'Appliances'),
+    ('books', 'Books'),
+    ('electronics', 'Electronics'),
+    ('furniture', 'Furniture'),
+    ('mmg', 'Movies, Music, and Games'),
+    ('tickets', 'Tickets'),
+    ('other', 'Miscellaneous')
+] -%}
+
 {% block content %}
 
 {% macro thumb(title, listing_id, price, image) -%}
@@ -25,15 +37,10 @@
       <div class="well sidebar-nav">
       <ul class="nav nav-list">
           <li class="nav-header">Categories</li>
-          <li><a href="{{url_for('index')}}">Everything</a></li>
-          <li><a href="{{url_for('a_a')}}">Apparel/Accessories</a></li>
-          <li><a href="{{url_for('appliances')}}">Appliances</a></li>
-          <li><a href="{{url_for('books')}}">Books</a></li>
-          <li><a href="{{url_for('electronics')}}">Electronics</a></li>
-          <li><a href="{{url_for('furniture')}}">Furniture</a></li>
-          <li><a href="{{url_for('mmg')}}">Movies, Music, and Games</a></li>
-          <li><a href="{{url_for('tickets')}}">Tickets</a></li>
-          <li><a href="{{url_for('other')}}">Miscellaneous</a></li>
+          {% for url, name in categories %}
+          <li {% if name == active %}class="active"{% endif %}><a href="{{url_for(url)}}">{{name}}</a></li>
+          {% endfor %}
+          
         </ul>
       </div>
     </div>

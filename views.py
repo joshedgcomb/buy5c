@@ -27,7 +27,6 @@ hmc_regex = re.compile(r"[\w.]+@[\w.]*hmc.edu")
 scripps_regex = re.compile(r"[\w.]+@[\w.]*scripps.edu")
 pitzer_regex = re.compile(r"[\w.]+@[\w.]*pitzer.edu")
 
-
 # Used to check if a user's price is a number
 def is_number(s):
     try:
@@ -114,7 +113,7 @@ def register():
             return ('account successfully created. go to buy5c.com/login' +
                     ' to log in')
 
-    return render_template('new_account.html')
+    return render_template('register.html')
 
 
 # sell page and function: not yet implemented
@@ -178,73 +177,89 @@ def index():
     if g.user.is_authenticated():
         return render_template('index.html',
                                email=g.user.email,
-                               listings=listings)
+                               listings=listings,
+                               active='Everything')
     return render_template('index.html',
                            listings=listings)
 
 
 @app.route('/a_a/')
-def a_a(balls):
+def a_a():
     if g.user.is_authenticated():
-        return render_template('a_a.html',
-                               username=g.user.email)
-    return render_template('a_a.html')
+        return render_template('index.html',
+                               username=g.user.email,
+                               active='Apparel/Accessories')
+    return render_template('a_a.html',
+                           active='Apparel/Accessories')
 
 
 @app.route('/appliances')
 def appliances():
     if g.user.is_authenticated():
-        return render_template('appliances.html',
-                               username=g.user.email)
-    return render_template('appliances.html')
+        return render_template('index.html',
+                               username=g.user.email,
+                               active='Appliances')
+    return render_template('index.html',
+                           active='Appliances')
 
 
 @app.route('/books')
 def books():
     if g.user.is_authenticated():
-        return render_template('books.html',
-                               username=g.user.email)
-    return render_template('books.html')
+        return render_template('index.html',
+                               username=g.user.email,
+                               active='Books')
+    return render_template('index.html',
+                           active='Books')
 
 
 @app.route('/electronics')
 def electronics():
     if g.user.is_authenticated():
-        return render_template('electronics.html',
-                               username=g.user.email)
-    return render_template('electronics.html')
+        return render_template('index.html',
+                               username=g.user.email,
+                               active='Electronics')
+    return render_template('index.html',
+                           active='Electronics')
 
 
 @app.route('/furniture')
 def furniture():
     if g.user.is_authenticated():
-        return render_template('furniture.html',
-                               username=g.user.email)
-    return render_template('furniture.html')
+        return render_template('index.html',
+                               username=g.user.email,
+                               active='Furniture')
+    return render_template('index.html')
 
 
 @app.route('/mmg')
 def mmg():
     if g.user.is_authenticated():
-        return render_template('mmg.html',
-                               username=g.user.email)
-    return render_template('mmg.html')
+        return render_template('index.html',
+                               username=g.user.email,
+                               active='Movies, Music, and Games')
+    return render_template('index.html',
+                           active='Movies, Music, and Games')
 
 
 @app.route('/tickets')
 def tickets():
     if g.user.is_authenticated():
-        return render_template('tickets.html',
-                               username=g.user.email)
-    return render_template('tickets.html')
+        return render_template('index.html',
+                               username=g.user.email,
+                               active='Tickets')
+    return render_template('index.html',
+                           active='Tickets')
 
 
 @app.route('/other')
 def other():
     if g.user.is_authenticated():
-        return render_template('other.html',
-                               username=g.user.email)
-    return render_template('other.html')
+        return render_template('index.html',
+                               username=g.user.email,
+                               active='Miscellaneous')
+    return render_template('index.html',
+                           active='Miscellaneous')
 
 
 @app.route('/listing/<listing_id>')
