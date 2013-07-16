@@ -35,4 +35,6 @@ nosetests.xml
 .pydevproject
 
 # database
-.db
+env
+*.db
+app.db

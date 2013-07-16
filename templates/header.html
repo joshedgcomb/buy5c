@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html>
-    <head>
-      <title>Buy 5C</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-      <style>
+  <head>
+    <title>Buy5C</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta name="description" content="Buy5c - A marketplace for the Claremont Colleges">
+     <meta charset="utf-8">
+     <link href="../static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+     <link href="../static/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
-      .sidebar-nav {
-        position: fixed;
-      }
-    </style>
+      
+    </style> 
+  </head>
 
-      <!-- Bootstrap -->
-      <link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    </head>
-
-
+  <body>
+      <!-- Navbar
+    ================================================== -->
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -26,52 +26,49 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a href="{{url_for('index')}}"><img class="brand_img" src="static/images/buy5c.png" alt="buy5c"></a>
+          <a class="brand" href="{{url_for('index')}}"><img src="../static/images/buy5c.png" alt="Buy5C"></a>
           <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-              {% if not username %}<a href="{{ url_for('login') }}" class="navbar-link">Log In</a>
-              {% else %}
-               <ul class="nav pull-right">
-             <li><h5 color: #999999>Hi, {{username}}.</h5></li>
-             <li> <a href="{{url_for('account')}}" class="navbar-link">Your Account  </a></li>
-              <li><a href="{{url_for('logout')}}" class="navbar-link">Logout</a></li>
-            </ul>
-             {% endif %}
+            <form class="navbar-search pull-left" action="{{url_for('index')}}">
+              <input type="text" class="search-query" placeholder="Search">
+            </form>
+            <ul class="nav pull-left">
+              {% if not email %}
+              <li><a href="{{url_for('register')}}">Sign up</a></li>
+              {% endif %}
+              <li><a href="{{url_for('about')}}">About</a></li>
+              <li><a href="{{url_for('feedback')}}">Feedback</a></li>
+              <li><a href="{{url_for('terms')}}">Terms</a></li>
 
-
-            </p>
-            <ul class="nav">
-              <li class="active">
-                <form class="navbar-search pull-left">
-                  <input type="text" class="search-query" placeholder="Search">
-                </form></li>
-              <li><a href="{{url_for('sell')}}">Sell</a></li>
             </ul>
-          </div><!--/.nav-collapse -->
+            {% if email %}
+            <ul class="nav pull-right">
+              <li><a href="{{url_for('account')}}">Hi, {{email}}</a></li>
+              <li><a href="{{url_for('logout')}}">Logout</a></li>
+              <li><a href="{{url_for('account')}}">Your Account</a></li>
+            </ul>
+            {% else %}
+            <form class="navbar-form pull-right" action="{{url_for('login')}}" method="POST">
+              <input class="span2" type="text" placeholder="Email" name="email">
+              <input class="span2" type="password" placeholder="Password" name="password">
+              <button type="submit" class="btn">Log in</button>
+            </form>
+            {% endif %}
+          </div>
+
         </div>
+        
       </div>
     </div>
 
-
     {% block content %}{% endblock %}
 
+        <!-- Footer
+    ================================================== -->
+    <footer class="footer">
+      <!-- Nothing here yet.-->
+    </footer>
 
-    <!--The Footer-->  
-      <div class="navbar navbar-fixed-bottom">
-        <div class="navbar-inner">
-        <div class="container-fluid">
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active">
-              <li><a href="{{ url_for('about') }}">About</a></li>
-              <li><a href="{{ url_for('terms') }}">Terms</a></li>
-              <li><a href="{{ url_for('contact') }}">Contact</a></li>
-              <li><a href="{{ url_for('feedback') }}">Feedback</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-      </div>
-
+  <script type="text/javascript" src="../static/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
   </body>
 </html>

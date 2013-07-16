@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% extends 'header.html' %}
+
+{% block content %}
+        <div class="container">
+            <div class="row pull-left">
+                <div class="span12">
+                    <h1>Create a listing!</h1>
+                </div>
+            </div>
+            <form action="{{ url_for('sell') }}" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="span3">
+                             Listing title: <input type="text" size="60" placeholder="Title" name="title">
+                        </div>
+                        <div class="span3">
+                            Select a category: 
+                            <select name="category">
+                            <option value=""></option>
+                            <option value="apparel">Apparel/Accessories</option>
+                            <option value="appliances">Appliances</option>
+                            <option value="books">Books</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="furniture">Furniture</option>
+                            <option value="movies">Movies, Music, Games</option>
+                            <option value = "tickets">Tickets</option>
+                            <option value="other">Other</option>
+                        </select>
+                        </div>
+                        <div class="span3">
+                            Upload an image(optional): 
+                             <input type="file" name="image" size="40" placeholder="Upload an image (Optional)">
+                        </div>
+                        <div class="span3">
+
+                            Price: $<input type="text" size="8" placeholder="Price" name="price">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="span12">
+                            Listing description: 
+                            <br>
+                            <textarea class="input-xxlarge" rows="13" cols="100" placeholder="Description" name="description"></textarea>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="span12">
+                            <input type="submit" value="Create Listing">
+                        </div>
+                    </div>
+            </form>
+            
+        </div>
+    {% endblock %}

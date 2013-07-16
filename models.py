@@ -1,20 +1,32 @@
 from app import db
+from config import SQLALCHEMY_DATABASE_URI
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 ROLE_USER = 0
 ROLE_ADMIN = 1
+
+engine = create_engine(SQLALCHEMY_DATABASE_URI)
+Base = declarative_base()
+Session = sessionmaker(bind=engine)
+session = Session()
+
 
 
 # User object to be stored in database. Contains fields for
 # unique id number (id), email address (email), password,
 # a list of their listings (listings), and role (i.e. regular
 # user vs. admin)
-class User(db.Model):
+class User(Base):
+    __tablename__ = 'user'
+
     id = db.Column(db.Integer, primary_key=True)
     password = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     role = db.Column(db.SmallInteger, default=ROLE_USER)
 
-    listings = db.relationship('Listing', backref=db.backref('author', lazy='dynamic'))
+    listings = db.relationship('Listing', backref='author')
 
     def __init__(self, email, password, role=ROLE_USER):
         self.email = email
@@ -41,7 +53,9 @@ class User(db.Model):
 # a unique listing number (id), title, the body text (body), the
 # time posted, the category it belongs to, and any images associated
 # with it
-class Listing(db.Model):
+class Listing(Base):
+    __tablename__ = 'listing'
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(140), index=True)
     body = db.Column(db.String)
@@ -50,13 +64,17 @@ class Listing(db.Model):
 
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'),
                             index=True)
-    images = db.relationship('Image', backref=db.backref('images', lazy='dynamic'))
+    price = db.Column(db.String(64))
+    image = db.Column(db.BLOB)
 
-    def __init__(self, title, body, category_id, time_posted):
+    def __init__(self, title, body, category_id, user_id, time_posted, price, image=None):
         self.title = title
         self.body = body
         self.category_id = category_id
+        self.user_id = user_id
         self.time_posted = time_posted
+        self.price = price
+        self.image = image
 
     def __repr__(self):
         return '<Listing %r>' % (self.title)
@@ -65,10 +83,12 @@ class Listing(db.Model):
 # Category object to be stored in database. Contains fields for
 # unique category number (id), category name, and all the listings
 # associated with the category
-class Category(db.Model):
+class Category(Base):
+    __tablename__ = 'category'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), index=True)
-    listings = db.relationship('Listing', backref='category', lazy='dynamic')
+    listings = db.relationship('Listing', backref='category')
 
     def __init__(self, name):
         self.name = name
@@ -76,10 +96,4 @@ class Category(db.Model):
     def __repr__(self):
         return '<Category %r>' % (self.name)
 
-
-# Image type to be stored in database. Has only a unique id number
-# and the image itself.
-class Image(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    image_file = db.Column(db.BLOB)
-    listing_id = db.Column(db.Integer, db.ForeignKey('listing.id'))
+Base.metadata.create_all(engine)
