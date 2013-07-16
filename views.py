@@ -165,13 +165,22 @@ def logout():
 @app.route('/')
 @app.route('/index')
 def index():
-    # prints current user
-    print(g.user)
+    listings = session.query(Listing).order_by(Listing.id.desc()).limit(12).all()
+    titles = []
+    listing_ids = []
+    prices = []
+    for x in listings:
+        titles.append(x.title)
+        listing_ids.append(x.id)
+        prices.append(x.price)
+    thumbnail_info = zip(titles, listing_ids, prices)
 
     if g.user.is_authenticated():
         return render_template('index.html',
-                               username=g.user.email)
-    return render_template('index.html')
+                               email=g.user.email,
+                               listings=listings)
+    return render_template('index.html',
+                           listings=listings)
 
 
 @app.route('/a_a/')
@@ -241,18 +250,28 @@ def other():
 @app.route('/listing/<listing_id>')
 def listing(listing_id):
     listing = session.query(Listing).get(listing_id)
-    return render_template('listing.html',
-                           email=g.user.email,
-                           listing_id=listing_id,
-                           title=listing.title,
-                           body=listing.body,
-                           price=listing.price)
+    if listing.image is None:
+        return render_template('listing.html',
+                               email=g.user.email,
+                               listing_id=listing_id,
+                               title=listing.title,
+                               body=listing.body,
+                               price=listing.price)
+    else:
+        return render_template('listing.html',
+                               email=g.user.email,
+                               listing_id=listing_id,
+                               title=listing.title,
+                               body=listing.body,
+                               price=listing.price,
+                               image=1)
 
 
 @app.route('/account')
 def account():
     if g.user.is_authenticated():
-        return render_template('header.html')
+        return render_template('header.html',
+                               email=g.user.email)
     return redirect(url_for('login'))
 
 

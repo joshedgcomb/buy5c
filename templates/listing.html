@@ -70,17 +70,16 @@
 
       <div class="jumbotron">
         <h1>{{title}} - {{price}}</h1>
+        {% if image %}
         <hr>
         <img src="{{url_for('get_image', listing_id=listing_id)}}">
              <hr>
+        {% endif %}
         <p class="lead">{{body}}</p>
 
-			<form action="MAILTO:kevin.byrne@pomona.edu" method="POST" enctype="text/plain">
-				<input class="btn btn-large btn-sucess" type="submit" value="Buy!">
+			<form action="MAILTO:{{email}}" method="POST" enctype="text/plain">
+				<input class="btn btn-large btn-sucess" type="submit" value="Email the seller">
 			</form>
-			<h6> Note: By clicking "Buy" you are committing to purchasing this item upon approval by the seller.</h6>
-
-      
 
 
     </div> <!-- /container -->
