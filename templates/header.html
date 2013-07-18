@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Buy5C</title>
+    <title>buy5c</title>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <meta name="description" content="Buy5c - A marketplace for the Claremont Colleges">
      <meta charset="utf-8">
-     <link href="../static/css/bootstrap.min.css" rel="stylesheet" media="screen">
-     <link href="../static/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+
+     <!-- Loading Bootstrap -->
+     <link href="../static/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+
+     <!-- Loading Flat UI -->
+    <link href="../static/css/flat-ui.css" rel="stylesheet">
+
      <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
-      
-    </style> 
+      </style> 
   </head>
 
   <body>
@@ -21,37 +25,45 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <ul class="nav pull-left">
+              <li><a href="{{url_for('index')}}">HOME</a></li>
+              <li><a href="{{url_for('about')}}">ABOUT</a></li>
+              <li><a href="{{url_for('sell')}}">SELL</a></li>
+              <li><a href="{{url_for('feedback')}}">FEEDBACK</a></li>
+          </ul>
+          <ul class="nav pull-right">
+              {% if not email %}
+              <li><a href="{{url_for('login')}}">LOGIN / </a></li>
+              <li><a href="{{url_for('register')}}">SIGN UP</a></li>
+              {% endif %}
+          </ul> 
+          <!-- <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="{{url_for('index')}}"><img src="../static/images/buy5c.png" alt="Buy5C"></a>
-          <div class="nav-collapse collapse">
-            <form class="navbar-search pull-left" action="{{url_for('index')}}">
-              <input type="text" class="search-query" placeholder="Search">
-            </form>
+           <a class="brand" href="{{url_for('index')}}"><img src="../static/images/buy5c.png" alt="Buy5C"></a> -->
+          <!-- <div class="nav-collapse collapse">
             <ul class="nav pull-left">
               {% if not email %}
               <li><a href="{{url_for('register')}}">Sign up</a></li>
               {% endif %}
               <li><a href="{{url_for('about')}}">About</a></li>
               <li><a href="{{url_for('feedback')}}">Feedback</a></li>
-              <li><a href="{{url_for('terms')}}">Terms</a></li>
 
-            </ul>
+            </ul> -->
             {% if email %}
-            <ul class="nav pull-right">
+            <!-- <ul class="nav pull-right">
               <li><a href="{{url_for('account')}}">Hi, {{email}}</a></li>
               <li><a href="{{url_for('logout')}}">Logout</a></li>
               <li><a href="{{url_for('account')}}">Your Account</a></li>
-            </ul>
+            </ul> -->
             {% else %}
-            <form class="navbar-form pull-right" action="{{url_for('login')}}" method="POST">
+            <!-- <form class="navbar-form pull-right" action="{{url_for('login')}}" method="POST">
               <input class="span2" type="text" placeholder="Email" name="email">
               <input class="span2" type="password" placeholder="Password" name="password">
-              <button type="submit" class="btn">Log in</button>
-            </form>
+              <button type="submit" class="btn">Log in</button> -->
+            <!-- </form> -->
             {% endif %}
           </div>
 
