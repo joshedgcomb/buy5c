@@ -3869,3 +3869,7 @@ body.vjs-full-window {
 .mal {
   margin-left: 20px;
 }
+.search {
+  float: right;
+  margin-top: 13px;
+}

@@ -282,7 +282,7 @@ a:focus {
 [class*="span"] {
   float: left;
   min-height: 1px;
-  margin-left: 40px;
+  margin-left: 20px;
 }
 
 .container,
@@ -616,6 +616,7 @@ a:focus {
 }
 
 .container {
+  float: center;
   margin-right: auto;
   margin-left: auto;
   *zoom: 1;
@@ -814,7 +815,7 @@ ul,
 ol {
   list-style: none;
   padding: 0;
-  margin: 0 5px 10px 19px;
+  margin: 0 5px 10px 0px;
 }
 
 ul ul,
@@ -3976,10 +3977,10 @@ input[type="submit"].btn.btn-mini {
 .nav-header {
   display: block;
   padding: 3px 15px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   line-height: 20px;
-  color: #C4273C;
+  color: #263545;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
 }
@@ -4373,7 +4374,6 @@ input[type="submit"].btn.btn-mini {
 .navbar {
   *position: relative;
   *z-index: 2;
-  padding-bottom: 20px;
   overflow: hidden;
 }
 
@@ -6178,4 +6178,11 @@ a.badge:focus {
 
 .affix {
   position: fixed;
+}
+
+.cap {
+  height: 10px;
+  position: center;
+  width: 700px;
+  background-color: #263545;
 }
