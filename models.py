@@ -13,7 +13,6 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 
-
 # User object to be stored in database. Contains fields for
 # unique id number (id), email address (email), password,
 # a list of their listings (listings), and role (i.e. regular

@@ -27,6 +27,7 @@ hmc_regex = re.compile(r"[\w.]+@[\w.]*hmc.edu")
 scripps_regex = re.compile(r"[\w.]+@[\w.]*scripps.edu")
 pitzer_regex = re.compile(r"[\w.]+@[\w.]*pitzer.edu")
 
+
 # Used to check if a user's price is a number
 def is_number(s):
     try:
@@ -34,6 +35,16 @@ def is_number(s):
         return True
     except ValueError:
         return False
+
+
+def get_listings(category=None, page_size=24, page_offset=0):
+    if category is None:
+        listings = session.query(Listing).order_by(Listing.id.desc()).limit(page_size).offset(page_size*page_offset).all()
+    else:
+        category_id = session.query(Category).filter(Category.name == category).first().id
+        listings = session.query(Listing).filter(Listing.category_id == category_id).order_by(Listing.id.desc()).limit(page_size).offset(page_size*page_offset).all()
+
+    return listings
 
 
 @app.route('/get_image/<int:listing_id>')
@@ -164,23 +175,14 @@ def logout():
 @app.route('/')
 @app.route('/index')
 def index():
-    listings = session.query(Listing).order_by(Listing.id.desc()).limit(12).all()
-    titles = []
-    listing_ids = []
-    prices = []
-    for x in listings:
-        titles.append(x.title)
-        listing_ids.append(x.id)
-        prices.append(x.price)
-    thumbnail_info = zip(titles, listing_ids, prices)
-
     if g.user.is_authenticated():
         return render_template('index.html',
                                email=g.user.email,
-                               listings=listings,
+                               listings=get_listings(),
                                active='Everything')
     return render_template('index.html',
-                           listings=listings)
+                           listings=get_listings(),
+                           active='Everything')
 
 
 @app.route('/a_a/')
@@ -189,7 +191,7 @@ def a_a():
         return render_template('index.html',
                                username=g.user.email,
                                active='Apparel/Accessories')
-    return render_template('a_a.html',
+    return render_template('index.html',
                            active='Apparel/Accessories')
 
 
@@ -265,21 +267,36 @@ def other():
 @app.route('/listing/<listing_id>')
 def listing(listing_id):
     listing = session.query(Listing).get(listing_id)
-    if listing.image is None:
-        return render_template('listing.html',
-                               email=g.user.email,
-                               listing_id=listing_id,
-                               title=listing.title,
-                               body=listing.body,
-                               price=listing.price)
+    if g.user.is_authenticated():
+        if listing.image is None:
+            return render_template('listing.html',
+                                   email=g.user.email,
+                                   listing_id=listing_id,
+                                   title=listing.title,
+                                   body=listing.body,
+                                   price=listing.price)
+        else:
+            return render_template('listing.html',
+                                   email=g.user.email,
+                                   listing_id=listing_id,
+                                   title=listing.title,
+                                   body=listing.body,
+                                   price=listing.price,
+                                   image=1)
     else:
-        return render_template('listing.html',
-                               email=g.user.email,
-                               listing_id=listing_id,
-                               title=listing.title,
-                               body=listing.body,
-                               price=listing.price,
-                               image=1)
+        if listing.image is None:
+            return render_template('listing.html',
+                                   listing_id=listing_id,
+                                   title=listing.title,
+                                   body=listing.body,
+                                   price=listing.price)
+        else:
+            return render_template('listing.html',
+                                   listing_id=listing_id,
+                                   title=listing.title,
+                                   body=listing.body,
+                                   price=listing.price,
+                                   image=1)
 
 
 @app.route('/account')
