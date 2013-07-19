@@ -413,7 +413,7 @@ you can use the generic selector below, but it's slower:
   }
 }
 body {
-  color: #ECF0F1;
+  color: #C4273C;
   font-family: "Lato", sans-serif;
   font-size: 14px;
   line-height: 1.231;
@@ -426,8 +426,7 @@ textarea {
   font-size: 14px;
 }
 a {
-  color: #16a085;
-  text-decoration: underline;
+  text-decoration: none;
   -webkit-transition: 0.25s;
   -moz-transition: 0.25s;
   -o-transition: 0.25s;
@@ -439,9 +438,8 @@ a:hover {
   text-decoration: none;
 }
 h1 {
-  font-size: 32px;
-  font-weight: 900;
-}
+  font-size: 46px;
+  font-weight: 900;}
 h2 {
   font-size: 28px;
   font-weight: 700;
@@ -805,9 +803,16 @@ h6 {
   transition: background-color .25s, color .25s, border-bottom-color .25s;
   -webkit-backface-visibility: hidden;
 }
+.navbar .logo > li > a {
+  display: block;
+  color: #C4273C;
+  margin-right: 10px;
+  padding: 0,0,0,0;
+  list-style: none;
+}
 .navbar .nav > li > a:hover,
 .navbar .nav > li > a:focus {
-  color: #1abc9c;
+  color: #263545;
 }
 .navbar .nav > li > a[class*="fui-"] {
   font-size: 24px;
@@ -912,7 +917,7 @@ h6 {
   display: none;
 }
 .navbar-inner {
-  background: #eceef0;
+  background: transparent;
   border: none;
   padding-left: 0;
   padding-right: 0;
@@ -930,7 +935,7 @@ h6 {
 
 }
 .navbar-inverse .navbar-inner {
-  background: #ECF0F1;
+  background: transparent;
   filter: unquote("progid:DXImageTransform.Microsoft.gradient(enabled = false)");
 }
 .navbar-inverse .brand {

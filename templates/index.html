@@ -8,7 +8,7 @@
     ('books', 'Books'),
     ('electronics', 'Electronics'),
     ('furniture', 'Furniture'),
-    ('mmg', 'Movies, Music, and Games'),
+    ('mmg', 'Movies & Games'),
     ('tickets', 'Tickets'),
     ('other', 'Miscellaneous')
 ] -%}
@@ -35,25 +35,24 @@
   <div class="row">
     <div class="span3">
       <div class="well sidebar-nav">
-      <ul class="nav nav-list">
+        <ul class="nav nav-list">
           <li class="nav-header">Categories</li>
           {% for url, name in categories %}
           <li {% if name == active %}class="active"{% endif %}><a href="{{url_for(url)}}">{{name}}</a></li>
           {% endfor %}
-          
         </ul>
-      </div>
-    </div>
+      </div> <!-- well -->
+    </div> <!-- span3 -->
     <div class="span9">
-      <div class="row">
-      <ul class="thumbnails">
+      <div class="row-fluid">
+        <ul class="thumbnails">
         {% set count=0 %}
         {% for listing in listings%}
         {{thumb(listing.title, listing.id, listing.price, listing.image)}}
 
         {% set count = count + 1 %}
         {% if count == 3 %}
-       </ul>
+        </ul>
       </div>
       <div class="row">
         <ul class="thumbnails">
