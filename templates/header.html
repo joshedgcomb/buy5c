@@ -29,20 +29,20 @@
               <li><a href="{{url_for('index')}}"><h1>buy5c</h1></a></li>
             </ul>
             <ul class="nav pull-left">
-              <li><a href="{{url_for('index')}}">HOME</a></li>
               <li><a href="{{url_for('about')}}">ABOUT</a></li>
-              <li><a href="{{url_for('sell')}}">SELL</a></li>
           </ul>
           <ul class="nav pull-left">
               {% if email %}
               <li><a href="{{url_for('account')}}">{{email}}</a></li>
-              <li><a href="{{url_for('account')}}">YOUR ACCOUNT</a></li>
               <li><a href="{{url_for('logout')}}">LOGOUT</a></li>
             {% else %}
-              <li><a href="{{url_for('login')}}">LOGIN/SIGNUP</a></li>
+              <li><a href="{{url_for('register')}}">LOGIN/SIGNUP</a></li>
               {% endif %}
           </ul> 
-            <input type="text" value="" placeholder="Search" class="search" />
+          <ul class="nav pull-right">
+              <li><a href="{{url_for('sell')}}">SELL</a></li>
+          </ul>
+            <input type="text" value="" placeholder="Search" class="search pull-right" />
         </div>
       </div>
     </div>
