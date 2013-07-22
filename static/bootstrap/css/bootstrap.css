@@ -227,11 +227,11 @@ body {
   font-size: 14px;
   line-height: 20px;
   color: #333333;
-  background-color: #f3f3f3;
+  background-color: #FDFDFA;
 }
 
 a {
-  color: #0088cc;
+  color: #6E6E63;
   text-decoration: none;
 }
 
@@ -1748,8 +1748,8 @@ select:focus:invalid:focus {
 
 .input-append .active,
 .input-prepend .active {
-  background-color: #a9dba9;
-  border-color: #46a546;
+  background-color: #FFD34E;
+  /*border-color: #46a546;*/
 }
 
 .input-prepend .add-on,
@@ -3120,7 +3120,7 @@ table th[class*="span"],
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;
-  background-color: white;
+  background-color: #6E6E63;
  /* border: 1px solid #e3e3e3;
   -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
@@ -3968,7 +3968,7 @@ input[type="submit"].btn.btn-mini {
 .nav > li > a:focus {
   text-decoration: none;
   background-color: transparent;
-  color: #263545;
+  color: #FFD34E;
 }
 
 .nav > li > a > img {
@@ -3985,8 +3985,8 @@ input[type="submit"].btn.btn-mini {
   font-size: 16px;
   font-weight: bold;
   line-height: 20px;
-  color: #263545;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  color: #B0B09F;
+  /*text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);*/
   text-transform: uppercase;
 }
 
@@ -4004,20 +4004,20 @@ input[type="submit"].btn.btn-mini {
 .nav-list .nav-header {
   margin-right: -15px;
   margin-left: -15px;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  /*text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);*/
 }
 
 .nav-list > li > a {
   padding: 3px 15px;
-  color: #3498DB;
+  color: #FDFDFA;
 }
 
 .nav-list > .active > a,
 .nav-list > .active > a:hover,
 .nav-list > .active > a:focus {
-  color: #ffffff;
+  color: #FFD34E;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-  background-color: #0088cc;
+  /*background-color: #0088cc;*/
 }
 
 .nav-list [class^="icon-"],
@@ -4554,7 +4554,7 @@ input[type="submit"].btn.btn-mini {
 
 .navbar-fixed-top,
 .navbar-fixed-bottom {
-  position: fixed;
+  /*position: fixed;*/
   right: 0;
   left: 0;
   /*z-index: 1030;*/
@@ -6187,7 +6187,14 @@ a.badge:focus {
 
 .cap {
   height: 10px;
-  position: center;
   width: 700px;
-  background-color: #263545;
+  background-color: #FFD34E;
 }
+
+.login-form {
+  /*margin-left: auto;
+  margin-right: auto;*/
+  margin-top: 50px;
+  width: 200px;
+}
+

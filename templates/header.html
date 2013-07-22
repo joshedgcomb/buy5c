@@ -12,11 +12,6 @@
      <!-- Loading Flat UI -->
     <link href="../static/css/flat-ui.css" rel="stylesheet">
 
-     <style>
-      body {
-        padding-top: 96px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-      </style> 
   </head>
 
   <body>
@@ -33,16 +28,17 @@
           </ul>
           <ul class="nav pull-left">
               {% if email %}
-              <li><a href="{{url_for('account')}}">{{email}}</a></li>
+              <li><a href="{{url_for('account')}}">ACCOUNT</a></li>
               <li><a href="{{url_for('logout')}}">LOGOUT</a></li>
             {% else %}
-              <li><a href="{{url_for('register')}}">LOGIN/SIGNUP</a></li>
+              <li><a href="{{url_for('login')}}">LOGIN/SIGNUP</a></li>
               {% endif %}
           </ul> 
           <ul class="nav pull-right">
               <li><a href="{{url_for('sell')}}">SELL</a></li>
-          </ul>
-            <input type="text" value="" placeholder="Search" class="search pull-right" />
+          
+            <li><input type="text" value="" placeholder="Search" class="search pull-right" /></li>
+          </ul> 
         </div>
       </div>
     </div>

@@ -434,7 +434,7 @@ a {
   -webkit-backface-visibility: hidden;
 }
 a:hover {
-  color: #1abc9c;
+  color: #FFD34E;
   text-decoration: none;
 }
 h1 {
@@ -759,7 +759,7 @@ h6 {
 .navbar .nav > li.active > a:hover,
 .navbar .nav > li.active > a:focus {
   background: none;
-  color: #1abc9c;
+  color: #FFD34E;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -795,7 +795,7 @@ h6 {
   font-size: 14.994px;
   /* 15px */
 
-  padding: 29px 20px 27px;
+  padding: 29px 15px 27px;
   text-shadow: none;
   -webkit-transition: background-color .25s, color .25s, border-bottom-color .25s;
   -moz-transition: background-color .25s, color .25s, border-bottom-color .25s;
@@ -805,14 +805,14 @@ h6 {
 }
 .navbar .logo > li > a {
   display: block;
-  color: #C4273C;
+  color: #FFD34E;
   margin-right: 10px;
   padding: 0,0,0,0;
   list-style: none;
 }
 .navbar .nav > li > a:hover,
 .navbar .nav > li > a:focus {
-  color: #263545;
+  color: #6E6E63;
 }
 .navbar .nav > li > a[class*="fui-"] {
   font-size: 24px;
@@ -888,7 +888,7 @@ h6 {
   text-decoration: none;
 }
 .navbar .nav ul a:hover {
-  background-color: #1abc9c;
+  background-color: #FFD34E;
 }
 .navbar .btn-navbar {
   background: none;
@@ -977,7 +977,7 @@ h6 {
 
   /*border-bottom: 2px solid #2c3e50;
   border-left: 2px solid #2c3e50;*/
-  color: #3498DB;
+  color: #B0B09F;
   /*padding: 16px 20px 15px;*/
 }
 .navbar-inverse .nav.pull-right > li > a {
@@ -1220,8 +1220,8 @@ input[type="search"],
 input[type="tel"],
 input[type="color"],
 .uneditable-input {
-  border: 2px solid #bdc3c7;
-  color: #34495e;
+  border: 2px solid #B0B09F;
+  color: #6E6E63;
   font-family: "Lato", sans-serif;
   font-size: 14px;
   padding: 8px 5px;
@@ -1326,7 +1326,7 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
 .uneditable-input:focus {
-  border-color: #1abc9c;
+  border-color: #FFD34E;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -3871,5 +3871,6 @@ body.vjs-full-window {
 }
 .search {
   float: right;
-  margin-top: 13px;
+  margin-top: 16px;
+  margin-left: 15px;
 }
