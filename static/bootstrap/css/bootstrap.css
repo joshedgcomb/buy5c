@@ -309,7 +309,7 @@ a:focus {
 }
 
 .listingbox {
-  max-height: 500px;
+  max-height: 600px;
   overflow-y: scroll;
 }
 
@@ -1204,7 +1204,7 @@ input[type="file"] {
 }
 
 select {
-  width: 220px;
+  width: 236px;
   background-color: #ffffff;
   border: 1px solid #cccccc;
 }
@@ -3353,7 +3353,8 @@ button.close {
 input[type="submit"].btn-block,
 input[type="reset"].btn-block,
 input[type="button"].btn-block {
-  width: 100%;
+  width: 236px;
+  margin-bottom: 10px;
 }
 
 .btn-primary.active,
@@ -6198,3 +6199,24 @@ a.badge:focus {
   width: 200px;
 }
 
+.createbox {
+  background-color: #B0B09F;
+  margin-top: 30px;
+  width: 256px;
+  padding-top: 10px;
+  padding-left: 20px;
+}
+
+
+.create {
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+/*
+h3.listinghead {
+  color: #FDFDFA;
+}*/

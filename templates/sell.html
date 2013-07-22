@@ -2,54 +2,37 @@
 {% extends 'header.html' %}
 
 {% block content %}
-        <div class="container">
-            <div class="row pull-left">
-                <div class="span12">
-                    <h1>Create a listing!</h1>
-                </div>
-            </div>
-            <form action="{{ url_for('sell') }}" method="POST" enctype="multipart/form-data">
-                    <div class="row">
-                        <div class="span3">
-                             Listing title: <input type="text" size="60" placeholder="Title" name="title">
-                        </div>
-                        <div class="span3">
-                            Select a category: 
-                            <select name="category">
-                            <option value=""></option>
-                            <option value="apparel">Apparel/Accessories</option>
-                            <option value="appliances">Appliances</option>
-                            <option value="books">Books</option>
-                            <option value="electronics">Electronics</option>
-                            <option value="furniture">Furniture</option>
-                            <option value="movies">Movies, Music, Games</option>
-                            <option value = "tickets">Tickets</option>
-                            <option value="other">Other</option>
-                        </select>
-                        </div>
-                        <div class="span3">
-                            Upload an image(optional): 
-                             <input type="file" name="image" size="40" placeholder="Upload an image (Optional)">
-                        </div>
-                        <div class="span3">
+<div class="container createbox">
+    <div class="row pull-left">
+                <div class="span4">
+                    <h3>Create a listing:</h3>
+                    <form action="{{ url_for('sell') }}" method="POST" enctype="multipart/form-data">
 
-                            Price: $<input type="text" size="8" placeholder="Price" name="price">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="span12">
-                            Listing description: 
-                            <br>
-                            <textarea class="input-xxlarge" rows="13" cols="100" placeholder="Description" name="description"></textarea>
-                            <br>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="span12">
-                            <input type="submit" value="Create Listing">
-                        </div>
-                    </div>
-            </form>
-            
-        </div>
+                     <input class="createInput" type="text" size="60" placeholder="Title" name="title">
+
+                     <input type="text" class="createInput price" size="8" placeholder="$" name="price">  
+
+                     <textarea class="input-large createInput" rows="3" cols="120" placeholder="Description" name="description"></textarea>
+
+                     <input type="file" name="image" id="fileInput" style="display:none;">
+                     <input type="button" value="Upload Image" class="btn btn-large btn-block btn-primary" onclick="chooseFile();">
+
+                    <select name="category">
+                        <option value="">Category</option>
+                        <option value="apparel">Apparel/Accessories</option>
+                        <option value="appliances">Appliances</option>
+                        <option value="books">Books</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="furniture">Furniture</option>
+                        <option value="movies">Movies, Music, Games</option>
+                        <option value = "tickets">Tickets</option>
+                        <option value="other">Other</option>
+                    </select>
+
+                    <input type="submit" id="createListing" style="display:none;">
+                    <input type="button" value="Create Listing" class="btn btn-large btn-block btn-primary btn-create" onclick="createListing();">
+                 </div>
+             </div>
+        </form>
+    </div>
     {% endblock %}

@@ -1,57 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>buy5c</title>
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <meta name="description" content="Buy5c - A marketplace for the Claremont Colleges">
-     <meta charset="utf-8">
+<head>
+  <title>buy5c</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Buy5c - A marketplace for the Claremont Colleges">
+  <meta charset="utf-8">
 
-     <!-- Loading Bootstrap -->
-     <link href="../static/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+  <!-- Loading Bootstrap -->
+  <link href="../static/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
 
-     <!-- Loading Flat UI -->
-    <link href="../static/css/flat-ui.css" rel="stylesheet">
+  <!-- Loading Flat UI -->
+  <link href="../static/css/flat-ui.css" rel="stylesheet">
 
-  </head>
+  <!-- Upload JS -->
+  <script>
+   function chooseFile() {
+      document.getElementById("fileInput").click();
+   }
+   function createListing() {
+      document.getElementById("createListing").click();
+   }
+</script>
 
-  <body>
+</head>
+
+<body>
       <!-- Navbar
-    ================================================== -->
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
+      ================================================== -->
+      <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
             <ul class="logo pull-left">
               <li><a href="{{url_for('index')}}"><h1>buy5c</h1></a></li>
             </ul>
             <ul class="nav pull-left">
               <li><a href="{{url_for('about')}}">ABOUT</a></li>
-          </ul>
-          <ul class="nav pull-left">
+            </ul>
+            <ul class="nav pull-left">
               {% if email %}
               <li><a href="{{url_for('account')}}">ACCOUNT</a></li>
               <li><a href="{{url_for('logout')}}">LOGOUT</a></li>
-            {% else %}
+              {% else %}
               <li><a href="{{url_for('login')}}">LOGIN/SIGNUP</a></li>
               {% endif %}
-          </ul> 
-          <ul class="nav pull-right">
+            </ul> 
+            <ul class="nav pull-right">
               <li><a href="{{url_for('sell')}}">SELL</a></li>
-          
-            <li><input type="text" value="" placeholder="Search" class="search pull-right" /></li>
-          </ul> 
+
+              <li><input type="text" value="" placeholder="Search" class="search pull-right" /></li>
+            </ul> 
+          </div>
         </div>
       </div>
-    </div>
 
-    {% block content %}{% endblock %}
+      {% block content %}{% endblock %}
 
         <!-- Footer
-    ================================================== -->
-    <footer class="footer">
-      <!-- Nothing here yet.-->
-    </footer>
+        ================================================== -->
+        <footer class="footer">
+          <!-- Nothing here yet.-->
+        </footer>
 
-  <script type="text/javascript" src="../static/js/jquery-2.0.3.min.js"></script>
-    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
-  </body>
-</html>
+        <script type="text/javascript" src="../static/js/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+      </body>
+      </html>
