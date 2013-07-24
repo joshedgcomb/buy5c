@@ -13,9 +13,10 @@ from flask import (
 
 from flask.ext.login import current_user, login_user, logout_user
 from models import *
-from app import app, lm, pwd_context
+from app import app, lm, pwd_context, app_session
 from datetime import datetime
 
+session = app_session
 
 # Some basic regular expressions to match 5C email addresses
 # These are not yet actually used, so you can use literally
@@ -62,6 +63,8 @@ def get_image(listing_id):
 @app.before_request
 def before_request():
     g.user = current_user
+    global session
+    session = app.config['SESSION']
 
 
 # function telling the login manager how to load a user
