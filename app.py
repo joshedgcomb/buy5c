@@ -18,9 +18,9 @@ lm.login_view = 'login'
 
 engine = create_engine(config.SQLALCHEMY_DATABASE_URI)
 Session = sessionmaker(bind=engine)
-Base.metadata.create_all(engine)
 app_session = Session()
 app.config['SESSION'] = app_session
+Base.metadata.create_all(engine)
 
 # CryptContext from passlib used for password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], default="bcrypt", all__vary_rounds=0.1)

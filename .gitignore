@@ -39,3 +39,4 @@ env
 *.db
 app.db
 *memory
+.views.py.swp

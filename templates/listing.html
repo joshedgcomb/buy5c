@@ -75,7 +75,7 @@
         <img src="{{url_for('get_image', listing_id=listing_id)}}">
              <hr>
         {% endif %}
-        <p class="lead">{{body}}</p>
+        <p class="lead">{{description}}</p>
 
 			<form action="MAILTO:{{email}}" method="POST" enctype="text/plain">
 				<input class="btn btn-large btn-sucess" type="submit" value="Email the seller">

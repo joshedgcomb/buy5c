@@ -1,8 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import *
-from sqlalchemy.orm import sessionmaker, relationship, backref
-from flask.ext.sqlalchemy import SQLAlchemy
-from config import SQLALCHEMY_DATABASE_URI
+from sqlalchemy.orm import relationship, backref
 
 ROLE_USER = 0
 ROLE_ADMIN = 1
@@ -53,7 +51,7 @@ class Listing(Base):
 
     id = Column(Integer, primary_key=True)
     title = Column(String(140), index=True)
-    body = Column(String)
+    description = Column(String)
     time_posted = Column(DateTime)
     user_id = Column(Integer, ForeignKey('user.id'))
 
@@ -62,9 +60,9 @@ class Listing(Base):
     price = Column(String(64))
     image = Column(BLOB)
 
-    def __init__(self, title, body, category_id, user_id, time_posted, price, image=None):
+    def __init__(self, title, description, category_id, user_id, time_posted, price, image=None):
         self.title = title
-        self.body = body
+        self.description = description
         self.category_id = category_id
         self.user_id = user_id
         self.time_posted = time_posted

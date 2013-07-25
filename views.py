@@ -270,20 +270,22 @@ def other():
 @app.route('/listing/<listing_id>')
 def listing(listing_id):
     listing = session.query(Listing).get(listing_id)
+    if listing is None:
+      return render_template('404.html')
     if g.user.is_authenticated():
         if listing.image is None:
             return render_template('listing.html',
                                    email=g.user.email,
                                    listing_id=listing_id,
                                    title=listing.title,
-                                   body=listing.body,
+                                   description=listing.description,
                                    price=listing.price)
         else:
             return render_template('listing.html',
                                    email=g.user.email,
                                    listing_id=listing_id,
                                    title=listing.title,
-                                   body=listing.body,
+                                   description=listing.description,
                                    price=listing.price,
                                    image=1)
     else:
@@ -291,13 +293,13 @@ def listing(listing_id):
             return render_template('listing.html',
                                    listing_id=listing_id,
                                    title=listing.title,
-                                   body=listing.body,
+                                   description=listing.description,
                                    price=listing.price)
         else:
             return render_template('listing.html',
                                    listing_id=listing_id,
                                    title=listing.title,
-                                   body=listing.body,
+                                   description=listing.description,
                                    price=listing.price,
                                    image=1)
 
