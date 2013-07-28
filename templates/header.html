@@ -5,8 +5,8 @@
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <meta name="description" content="Buy5c - A marketplace for the Claremont Colleges">
      <meta charset="utf-8">
-     <link href="../static/css/bootstrap.min.css" rel="stylesheet" media="screen">
-     <link href="../static/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+     <link href="{{url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet" media="screen">
+     <link href="{{url_for('static', filename='css/bootstrap-responsive.min.css')}}" rel="stylesheet" media="screen">
      <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -26,7 +26,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="{{url_for('index')}}"><img src="../static/images/buy5c.png" alt="Buy5C"></a>
+          <a class="brand" href="{{url_for('index')}}"><img src="{{url_for('static', filename='images/buy5c.png')}}" alt="Buy5C"></a>
           <div class="nav-collapse collapse">
             <form class="navbar-search pull-left" action="{{url_for('index')}}">
               <input type="text" class="search-query" placeholder="Search">
@@ -61,6 +61,10 @@
       </div>
     </div>
 
+    {% if message %}
+    <h4>{{message}}</h4>
+    {% endif %}
+
     {% block content %}{% endblock %}
 
         <!-- Footer
@@ -69,7 +73,7 @@
       <!-- Nothing here yet.-->
     </footer>
 
-  <script type="text/javascript" src="../static/js/jquery-2.0.3.min.js"></script>
-    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='js/jquery-2.0.3.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
   </body>
 </html>

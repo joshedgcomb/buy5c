@@ -33,11 +33,15 @@ class Buy5cTestCase(unittest.TestCase):
     def test_user_can_create_new_account(self):
         email = 'steve-o'
         password = 'wonder_woman'
+        encrypted_password = pwd_context.encrypt(password)
         rv = self.app.post('/register', data=dict(
             email=email,
             password=password))
         user = session.query(User).filter(User.email == email).first()
-        assert user is not None
+      
+        self.assertIsNotNone(user)
+        self.assertEqual(user.email, email)
+        pwd_context.verify(encrypted_password, user.password)
 
     def test_user_can_login(self):
         email = 'login_test'
@@ -50,7 +54,6 @@ class Buy5cTestCase(unittest.TestCase):
             c.post('/login', data=dict(
             email=email,
             password=password))
-            print current_user
             self.assertEqual(user, current_user)
 
     def test_user_can_logout(self):
@@ -82,15 +85,24 @@ class Buy5cTestCase(unittest.TestCase):
             password=password))
             self.assertEqual(user, current_user, "Could not test user listing creation because login failed.")
 
+            title = 'listing creation test title'
+            description = 'listing creation test description'
+            category_id = '7'
+            price = '50'
+
             c.post('/sell', data=dict(
-                title='listing creation test title',
-                description='listing creation test description',
-                category='listing creation test category',
-                price='50', #arbitrary value since non number values are not accepted
+                title=title,
+                description=description,
+                category=category_id,
+                price=price,  #arbitrary value since non number values are not accepted
                 ))
 
             listing = session.query(Listing).filter(Listing.title == 'listing creation test title').first()
             self.assertIsNotNone(listing)
+            self.assertEqual(listing.title, title)
+            self.assertEqual(listing.description, description)
+            self.assertEqual(listing.price, price)
+            self.assertEqual(listing.user_id, user.id)
 
     #put tests covering listing editing and deletion here when functionality added
 
@@ -98,10 +110,10 @@ class Buy5cTestCase(unittest.TestCase):
     def test_anonymous_user_can_view_a_listing(self):
         title = 'anonymous view title'
         description = 'anonymous view description'
-        category_id = '5' # arbitrary value, not important for this test
-        user_id = '5' # ibid
+        category_id = '5'  # arbitrary value, not important for this test
+        user_id = '5'  # ibid
         time_posted = datetime.utcnow()
-        price = '50' # ibid
+        price = '50'  # ibid
         image = None
         listing = Listing(title, description, category_id, user_id, time_posted, price, image)
 
@@ -113,8 +125,155 @@ class Buy5cTestCase(unittest.TestCase):
         self.assertIn(description, response_form.data)
 
     def test_attempt_to_view_invalid_listing_gives_404(self):
-        response_form = self.app.get('/listing/79870907989870987') # arbitrary nonexistent listing
+        response_form = self.app.get('/listing/79870907989870987')  # arbitrary nonexistent listing
         self.assertIn('404', response_form.data)
+
+    def test_user_can_edit_their_listing(self):
+        email = 'listing editing email'
+        password = 'listing editing password'
+        user = User(email, pwd_context.encrypt(password))
+
+        listing_id = 9000000
+        title = 'listing editing title'
+        description = 'listing editing description'
+        category_id = '5'  # arbitrary value, not important for this test
+        user_id = '5'  # ibid
+        time_posted = datetime.utcnow()
+        price = '50'  # ibid
+        image = None
+        listing = Listing(title, description, category_id, user_id, time_posted, price, image)
+
+        session.add(user)
+        session.commit()
+
+        user_in_database = session.query(User).filter(User.email == email).first()
+        listing.user_id = user_in_database.id
+        listing.id = listing_id
+
+        session.add(listing)
+        session.commit()
+
+        with app.test_client() as c:
+            c.post('/login', data=dict(
+            email=email,
+            password=password))
+            self.assertEqual(user, current_user, "Could not test user listing editing because login failed.")
+
+            new_title = 'new listing editing title'
+            new_description = 'new listing editing description'
+            new_category_id = '8'
+            new_price = '75'
+            rv = c.post('/listing/' + str(listing_id) + '/edit', data=dict(
+                title=new_title,
+                description=new_description,
+                category=new_category_id,
+                price=new_price,
+                ), follow_redirects=True)
+
+        edited_listing = session.query(Listing).get(listing_id)
+
+        self.assertEqual(edited_listing.title, new_title)
+        self.assertEqual(edited_listing.description, new_description)
+        # self.assertEqual(edited_listing.category_id, new_category_id)  #Categories not yet implemented
+        self.assertEqual(edited_listing.price, new_price)
+
+    def test_user_cannot_edit_listing_if_not_logged_in(self):
+        email = 'listing editing1 email'
+        password = 'listing editing1 password'
+        user = User(email, pwd_context.encrypt(password))
+
+        listing_id = 90000001
+        title = 'listing editing1 title'
+        description = 'listing editing1 description'
+        category_id = '5'  # arbitrary value, not important for this test
+        user_id = '5'  # ibid
+        time_posted = datetime.utcnow()
+        price = '50'  # ibid
+        image = None
+        listing = Listing(title, description, category_id, user_id, time_posted, price, image)
+
+        session.add(user)
+        session.commit()
+
+        user_in_database = session.query(User).filter(User.email == email).first()
+        listing.user_id = user_in_database.id
+        listing.id = listing_id
+
+        session.add(listing)
+        session.commit()
+
+        with app.test_client() as c:
+
+            new_title = 'new listing editing1 title'
+            new_description = 'new listing editing1 description'
+            new_category_id = '8'
+            new_price = '751'
+            rv = c.post('/listing/' + str(listing_id) + '/edit', data=dict(
+                title=new_title,
+                description=new_description,
+                category=new_category_id,
+                price=new_price,
+                ), follow_redirects=True)
+
+        edited_listing = session.query(Listing).get(listing_id)
+
+        self.assertNotEqual(edited_listing.title, new_title)
+        self.assertNotEqual(edited_listing.description, new_description)
+        # self.assertEqual(edited_listing.category_id, new_category_id)  #Categories not yet implemented
+        self.assertNotEqual(edited_listing.price, new_price)
+
+
+    def test_user_that_did_not_create_listing_cannot_edit_it(self):
+
+        email = 'listing editing2 email'
+        password = 'listing editing2 password'
+        user = User(email, pwd_context.encrypt(password))
+
+        listing_id = 90000002
+        title = 'listing editing2 title'
+        description = 'listing editing2 description'
+        category_id = '5'  # arbitrary value, not important for this test
+        user_id = '5'  # ibid
+        time_posted = datetime.utcnow()
+        price = '50'  # ibid
+        image = None
+        listing = Listing(title, description, category_id, user_id, time_posted, price, image)
+
+        session.add(user)
+        session.commit()
+
+        user_in_database = session.query(User).filter(User.email == email).first()
+        listing.user_id = user_in_database.id + 1  # ensuring that our user's id and the listing's creator are not the same
+        listing.id = listing_id
+
+        session.add(listing)
+        session.commit()
+
+        with app.test_client() as c:
+            c.post('/login', data=dict(
+            email=email,
+            password=password))
+            self.assertEqual(user, current_user, "Could not test user listing editing because login failed.")
+
+            new_title = 'new listing editing2 title'
+            new_description = 'new listing editing2 description'
+            new_category_id = '8'
+            new_price = '752'
+            rv = c.post('/listing/' + str(listing_id) + '/edit', data=dict(
+                title=new_title,
+                description=new_description,
+                category=new_category_id,
+                price=new_price,
+                ), follow_redirects=True)
+
+        edited_listing = session.query(Listing).get(listing_id)
+
+        self.assertNotEqual(edited_listing.title, new_title)
+        self.assertNotEqual(edited_listing.description, new_description)
+        # self.assertEqual(edited_listing.category_id, new_category_id)  #Categories not yet implemented
+        self.assertNotEqual(edited_listing.price, new_price)
+
+
 
 
 

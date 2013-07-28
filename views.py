@@ -8,7 +8,8 @@ from flask import (
     url_for,
     g,
     flash,
-    send_file
+    send_file,
+    abort
 )
 
 from flask.ext.login import current_user, login_user, logout_user
@@ -79,7 +80,10 @@ def login():
     # If a user is already logged in. is_authenticated is a function
     # of the User class in models.py
     if g.user.is_authenticated():
-        return 'user already logged in'
+        return render_template('index.html', 
+                                message='A user is already logged in.',
+                                email=g.user.email,
+                                listings=get_listings())
 
     # If the user is sending information (i.e. trying to log in),
     # checks the selected email against the users in the database.
@@ -94,10 +98,14 @@ def login():
         # logs the user in and returns a message.
         if user is not None and pwd_context.verify(password, user.password):
             login_user(user)
-            flash('Logged in successfully.')
-            return 'login successful'
+            return render_template('index.html',
+                                    message='Login was successful.',
+                                    email=user.email,
+                                    listings=get_listings())
 
-        return 'username or password invalid'
+        return render_template('index.html',
+                                message='Email or password invalid. Please try again.',
+                                listings=get_listings())
 
     # returns login form if request method was GET
     return render_template('login.html')
@@ -109,14 +117,20 @@ def register():
 
     # if a user is already logged in
     if g.user.is_authenticated():
-        return 'please logout before attempting to create a new account'
+        return render_template('index.html',
+                                message='Please logout before attempting to create a new_account.',
+                                email=g.user.email,
+                                listings=get_listings())
 
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
         user = session.query(User).filter(User.email == email).first()
         if user is not None:
-            return 'an account with that email already exists'
+            return render_template('index.html',
+                                    message='An account with that email already exists. If you have forgotten your password,'
+                                    + ' go to "buy5c.com/forgot_password" to find out how to reset it.',
+                                    listings=get_listings())
 
        # if no user with that email exists, creates one and adds it to the database
         else:
@@ -124,8 +138,10 @@ def register():
             user = User(email, password)
             session.add(user)
             session.commit()
-            return ('account successfully created. go to buy5c.com/login' +
-                    ' to log in')
+            return render_template('index.html',
+                                    message='Account successfully created.',
+                                    email=user.email,
+                                    listings=get_listings())
 
     return render_template('register.html')
 
@@ -134,7 +150,9 @@ def register():
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
     if not g.user.is_authenticated():
-        return 'you must be logged in to sell an item'
+        return render_template('index.html',
+                                message='You must be logged in to sell an item.',
+                                listings=get_listings())
 
     if request.method == 'POST':
         title = request.form['title']
@@ -147,23 +165,34 @@ def sell():
             image = buffer(image_file)
 
         if len(title) == 0:
-            return 'please include a title for your item'
+            return render_template('sell.html',
+                                    message='Please include a title for your item.',
+                                    email=g.user.email)
 
         if len(description) == 0:
-            return 'please include a description for your item'
+            return render_template('sell.html',
+                                    message='Please include a description for your item.',
+                                    email=g.user.email)
 
         if len(category) == 0:
-            return 'please select a category for your item'
+            return render_template('sell.html',
+                                    message='Please select a category for your item.',
+                                    email=g.user.email)
 
         if not is_number(price):
-            return 'please input a price for your item'
+            return render_template('sell.html',
+                                    message='Please include a price for your item. Note: it must be a number',
+                                    email=g.user.email)
 
         category_id = session.query(Category).filter(Category.name == category).first()
 
         listing = Listing(title, description, category_id, g.user.id, datetime.utcnow(), price, image)
         session.add(listing)
         session.commit()
-        return 'listing created'
+        return render_template('index.html',
+                                message='Listing successfully created',
+                                email=g.user.email,
+                                listings=get_listings())
     return render_template('sell.html', email=g.user.email)
 
 
@@ -271,11 +300,14 @@ def other():
 def listing(listing_id):
     listing = session.query(Listing).get(listing_id)
     if listing is None:
-      return render_template('404.html')
+        abort(404)
+
     if g.user.is_authenticated():
         if listing.image is None:
             return render_template('listing.html',
                                    email=g.user.email,
+                                   user_id=g.user.id,
+                                   listing_user_id=listing.user_id,
                                    listing_id=listing_id,
                                    title=listing.title,
                                    description=listing.description,
@@ -283,11 +315,13 @@ def listing(listing_id):
         else:
             return render_template('listing.html',
                                    email=g.user.email,
+                                   user_id=g.user.id,
+                                   listing_user_id=listing.user_id,
                                    listing_id=listing_id,
                                    title=listing.title,
                                    description=listing.description,
                                    price=listing.price,
-                                   image=1)
+                                   image=listing.image)
     else:
         if listing.image is None:
             return render_template('listing.html',
@@ -301,7 +335,71 @@ def listing(listing_id):
                                    title=listing.title,
                                    description=listing.description,
                                    price=listing.price,
-                                   image=1)
+                                   image=listing.image)
+
+
+@app.route('/listing/<listing_id>/edit', methods=['GET', 'POST'])
+def edit_listing(listing_id):
+    listing = session.query(Listing).get(listing_id)
+    if listing is None:
+        return abort(404)
+
+    if not g.user.is_authenticated():
+        return render_template('listing.html',
+                                listing_id=listing_id,
+                                title=listing.title,
+                                description=listing.description,
+                                price=listing.price,
+                                image=listing.image,
+                                message='You must be logged in to edit your listing.')
+
+    if g.user.id != listing.user_id:
+        return render_template('listing.html',
+                                listing_id=listing_id,
+                                title=listing.title,
+                                description=listing.description,
+                                price=listing.price,
+                                image=listing.image,
+                                message='Only the creator of this listing may edit it.')
+
+    if request.method == 'GET':
+        return render_template('edit_listing.html',
+                                listing_id=listing_id,
+                                title=listing.title,
+                                description=listing.description,
+                                price=listing.price,
+                                image=listing.image)
+
+    elif request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        category = request.form['category']
+        price = request.form['price']
+        image = None
+        if 'image' in request.files:
+            image_file = request.files['image'].read()
+            image = buffer(image_file)
+            listing.image = image
+
+        if title != '':
+            listing.title = title
+
+        if description != '':
+            listing.description = description
+
+        if category != '':
+            category_id = session.query(Category).filter(Category.name == category).first()
+            listing.category_id = category_id
+
+        if price != '' and is_number(price):
+            listing.price = price
+
+        session.commit()
+        return redirect(url_for('listing', listing_id=listing.id))
+
+
+
+
 
 
 @app.route('/account')
@@ -330,3 +428,8 @@ def contact():
 @app.route('/feedback')
 def feedback():
     return False
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+  return render_template('404.html'), 404

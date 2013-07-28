@@ -69,17 +69,22 @@
     <div class="container-narrow">
 
       <div class="jumbotron">
-        <h1>{{title}} - {{price}}</h1>
-        {% if image %}
+        <h1>{{title}} - ${{price}}</h1>
+        {% if image is not none %}
         <hr>
         <img src="{{url_for('get_image', listing_id=listing_id)}}">
              <hr>
         {% endif %}
         <p class="lead">{{description}}</p>
-
+      {% if user_id == listing_user_id %}
+      <form action="{{url_for('edit_listing', listing_id=listing_id)}}" method="GET">
+        <input class="btn btn-large btn-sucess" type="submit" value="Edit your listing">
+      </form>
+      {% else %}
 			<form action="MAILTO:{{email}}" method="POST" enctype="text/plain">
 				<input class="btn btn-large btn-sucess" type="submit" value="Email the seller">
 			</form>
+      {% endif %}
 
 
     </div> <!-- /container -->
