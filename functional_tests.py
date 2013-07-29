@@ -50,7 +50,7 @@ class Buy5cTestCase(unittest.TestCase):
         session.add(user)
         session.commit()
 
-        with app.test_client() as c:
+        with self.app as c:
             c.post('/login', data=dict(
             email=email,
             password=password))
@@ -63,7 +63,7 @@ class Buy5cTestCase(unittest.TestCase):
         session.add(user)
         session.commit()
 
-        with app.test_client() as c:
+        with self.app as c:
             c.post('/login', data=dict(
             email=email,
             password=password))
@@ -79,7 +79,7 @@ class Buy5cTestCase(unittest.TestCase):
         session.add(user)
         session.commit()
 
-        with app.test_client() as c:
+        with self.app as c:
             c.post('/login', data=dict(
             email=email,
             password=password))
@@ -153,7 +153,7 @@ class Buy5cTestCase(unittest.TestCase):
         session.add(listing)
         session.commit()
 
-        with app.test_client() as c:
+        with self.app as c:
             c.post('/login', data=dict(
             email=email,
             password=password))
@@ -202,7 +202,7 @@ class Buy5cTestCase(unittest.TestCase):
         session.add(listing)
         session.commit()
 
-        with app.test_client() as c:
+        with self.app as c:
 
             new_title = 'new listing editing1 title'
             new_description = 'new listing editing1 description'
@@ -237,11 +237,14 @@ class Buy5cTestCase(unittest.TestCase):
         time_posted = datetime.utcnow()
         price = '50'  # ibid
         image = None
+        # creating the listing object
         listing = Listing(title, description, category_id, user_id, time_posted, price, image)
 
+        # adding the user to the db
         session.add(user)
         session.commit()
 
+        # associating the user and the listing
         user_in_database = session.query(User).filter(User.email == email).first()
         listing.user_id = user_in_database.id + 1  # ensuring that our user's id and the listing's creator are not the same
         listing.id = listing_id
@@ -249,7 +252,7 @@ class Buy5cTestCase(unittest.TestCase):
         session.add(listing)
         session.commit()
 
-        with app.test_client() as c:
+        with self.app as c:
             c.post('/login', data=dict(
             email=email,
             password=password))
@@ -272,6 +275,50 @@ class Buy5cTestCase(unittest.TestCase):
         self.assertNotEqual(edited_listing.description, new_description)
         # self.assertEqual(edited_listing.category_id, new_category_id)  #Categories not yet implemented
         self.assertNotEqual(edited_listing.price, new_price)
+
+
+    def test_user_account_page_shows_listings(self):
+        email = 'account test email'
+        password = 'account test password'
+        user = User(email, pwd_context.encrypt(password))
+
+        listing_id = 90000003
+        title = 'account test title'
+        description = 'account test description'
+        category_id = '5'  # arbitrary value, not important for this test
+        user_id = '5'  # ibid
+        time_posted = datetime.utcnow()
+        price = '50'  # ibid
+        image = None
+        # creating the listing object
+        listing = Listing(title, description, category_id, user_id, time_posted, price, image)
+
+        # adding the user to the db
+        session.add(user)
+        session.commit()
+
+        # associating the user and the listing
+        user_in_database = session.query(User).filter(User.email == email).first()
+        listing.user_id = user_in_database.id
+
+        session.add(listing)
+        session.commit()
+
+        other_title = 'account test2 title'
+        user_id = 777
+        listing = Listing(other_title, description, category_id, user_id, time_posted, price, image)
+
+        with self.app as c:
+            c.post('/login', data=dict(
+            email=email,
+            password=password))
+            self.assertEqual(user, current_user, "Could not test user listing editing because login failed.")
+
+            rv = c.get('/account')
+
+            self.assertIn(title, rv.data)
+            # listing
+            self.assertNotIn(other_title, rv.data)
 
 
 

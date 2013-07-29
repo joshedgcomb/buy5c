@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% extends 'header.html' %}
+{% block content %}
+
+{% macro thumb(title, listing_id, price, image) -%}
+
+<li class="span3">
+  <div class="thumbnail">
+    {% if image is not none %}
+    <img src="{{url_for('get_image', listing_id=listing_id)}}" alt="image of {{title}}">
+    {% else %}
+    <img src="static/images/placeholder.png" alt="image of {{title}}">
+    {% endif %}
+    <a href="{{url_for('listing', listing_id=listing_id)}}"><h5 align="center">{{title}} - ${{price}}</h5></a>
+    {#<p align=center><a class="listing_name" href="{{ url_for('listing', listing_id=listing_id) }}">{{title}}</a></p>#}
+  </div>
+</li>
+
+{%- endmacro %}
+
+<h3>Your listings:</h3>
+<div class="container-fluid">
+  <div class="row">
+    <div class="span3">
+    </div>
+    <div class="span9">
+      <div class="row">
+      <ul class="thumbnails">
+        {% set count=0 %}
+        {% for listing in listings%}
+        {{thumb(listing.title, listing.id, listing.price, listing.image)}}
+
+        {% set count = count + 1 %}
+        {% if count == 3 %}
+       </ul>
+      </div>
+      <div class="row">
+        <ul class="thumbnails">
+
+      {% endif %}
+
+        {% endfor %}
+
+      </ul>
+    </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

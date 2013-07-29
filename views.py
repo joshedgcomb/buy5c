@@ -39,7 +39,13 @@ def is_number(s):
         return False
 
 
-def get_listings(category=None, page_size=24, page_offset=0):
+def get_listings(category=None, page_size=24, page_offset=0, user_id=None):
+    # for user specific listing queries, this can only return all of a user's listings
+    if user_id:
+        user = session.query(User).get(user_id)
+        listings = user.listings
+        return listings
+
     if category is None:
         listings = session.query(Listing).order_by(Listing.id.desc()).limit(page_size).offset(page_size*page_offset).all()
     else:
@@ -140,7 +146,6 @@ def register():
             session.commit()
             return render_template('index.html',
                                     message='Account successfully created.',
-                                    email=user.email,
                                     listings=get_listings())
 
     return render_template('register.html')
@@ -355,6 +360,7 @@ def edit_listing(listing_id):
 
     if g.user.id != listing.user_id:
         return render_template('listing.html',
+                                email=g.user.email,
                                 listing_id=listing_id,
                                 title=listing.title,
                                 description=listing.description,
@@ -405,8 +411,11 @@ def edit_listing(listing_id):
 @app.route('/account')
 def account():
     if g.user.is_authenticated():
-        return render_template('header.html',
-                               email=g.user.email)
+        listings = get_listings(user_id=g.user.id)
+        return render_template('account.html',
+                               email=g.user.email,
+                               listings=listings
+                               )
     return redirect(url_for('login'))
 
 
