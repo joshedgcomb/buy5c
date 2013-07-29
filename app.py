@@ -16,11 +16,14 @@ lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'login'
 
-engine = create_engine(config.SQLALCHEMY_DATABASE_URI)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://josh:a@localhost/mydb'
+engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 Session = sessionmaker(bind=engine)
 app_session = Session()
 app.config['SESSION'] = app_session
 Base.metadata.create_all(engine)
+conn = engine.connect()
+
 
 # CryptContext from passlib used for password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], default="bcrypt", all__vary_rounds=0.1)
@@ -36,4 +39,3 @@ app.secret_key = 'the secretest of keys'
 
 if __name__ == '__main__':
     app.run(debug=True)
-

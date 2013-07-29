@@ -418,6 +418,13 @@ def account():
                                )
     return redirect(url_for('login'))
 
+# @app.route('/search', methods=['POST'])
+def search(query_string):
+    # terms = request.form['terms']
+    query_string = "select * from listing where to_tsvector('english', description) @@ plainto_tsquery('english','" + query_string + "')"
+    listings = session.execute(query_string)
+    return listings.fetchall()
+
 
 @app.route('/about')
 def about():

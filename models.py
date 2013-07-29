@@ -1,6 +1,8 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import *
 from sqlalchemy.orm import relationship, backref
+from sqlalchemy.sql.expression import func
+from sqlalchemy.schema import Index
 
 ROLE_USER = 0
 ROLE_ADMIN = 1
@@ -50,7 +52,7 @@ class Listing(Base):
     __tablename__ = 'listing'
 
     id = Column(Integer, primary_key=True)
-    title = Column(String(140), index=True)
+    title = Column(String(140))
     description = Column(String)
     time_posted = Column(DateTime)
     user_id = Column(Integer, ForeignKey('user.id'))
@@ -58,7 +60,11 @@ class Listing(Base):
     category_id = Column(Integer, ForeignKey('category.id'),
                             index=True)
     price = Column(String(64))
-    image = Column(BLOB)
+    image = Column(LargeBinary)
+
+    Index('listing_search_index', func.to_tsvector('english', 'title'), 
+            func.to_tsvector('english', 'description'), postgresql_using='gin')
+
 
     def __init__(self, title, description, category_id, user_id, time_posted, price, image=None):
         self.title = title
