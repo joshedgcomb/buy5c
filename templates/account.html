@@ -4,15 +4,17 @@
 
 {% macro thumb(title, listing_id, price, image) -%}
 
-<li class="span3">
+<li class="span4">
   <div class="thumbnail">
-    {% if image is not none %}
+    {% if image == '' %}
+    <img src="{{url_for('static', filename='images/demo/browser-pic-4.jpg')}}" alt="image of {{title}}">  
+    {% elif image is not none %}
     <img src="{{url_for('get_image', listing_id=listing_id)}}" alt="image of {{title}}">
     {% else %}
-    <img src="static/images/placeholder.png" alt="image of {{title}}">
+    <img src="{{url_for('static', filename='images/demo/browser-pic-4.jpg')}}" alt="image of {{title}}">
     {% endif %}
     <a href="{{url_for('listing', listing_id=listing_id)}}"><h5 align="center">{{title}} - ${{price}}</h5></a>
-    {#<p align=center><a class="listing_name" href="{{ url_for('listing', listing_id=listing_id) }}">{{title}}</a></p>#}
+    <!-- {#<p align=center><a class="listing_name" href="{{ url_for('listing', listing_id=listing_id) }}">{{title}}</a></p>#} -->
   </div>
 </li>
 

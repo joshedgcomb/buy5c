@@ -8,7 +8,7 @@
     ('books', 'Books'),
     ('electronics', 'Electronics'),
     ('furniture', 'Furniture'),
-    ('mmg', 'Movies, Music, and Games'),
+    ('mmg', 'Video Games'),
     ('tickets', 'Tickets'),
     ('other', 'Miscellaneous')
 ] -%}
@@ -17,45 +17,51 @@
 
 {% macro thumb(title, listing_id, price, image) -%}
 
-<li class="span3">
+<li class="span4">
   <div class="thumbnail">
-    {% if image is not none %}
+    {% if image == '' %}
+    <img src="{{url_for('static', filename='images/demo/browser-pic-4.jpg')}}" alt="image of {{title}}">  
+    {% elif image is not none %}
     <img src="{{url_for('get_image', listing_id=listing_id)}}" alt="image of {{title}}">
     {% else %}
-    <img src="static/images/placeholder.png" alt="image of {{title}}">
+    <img src="{{url_for('static', filename='images/demo/browser-pic-4.jpg')}}" alt="image of {{title}}">
     {% endif %}
     <a href="{{url_for('listing', listing_id=listing_id)}}"><h5 align="center">{{title}} - ${{price}}</h5></a>
-    {#<p align=center><a class="listing_name" href="{{ url_for('listing', listing_id=listing_id) }}">{{title}}</a></p>#}
+    <!-- {#<p align=center><a class="listing_name" href="{{ url_for('listing', listing_id=listing_id) }}">{{title}}</a></p>#} -->
   </div>
 </li>
 
 {%- endmacro %}
 
-<div class="container-fluid">
+<div class="container">
   <div class="row">
     <div class="span3">
-      <div class="well sidebar-nav" data-spy="affix">
-      <ul class="nav nav-list">
+      <div class="well sidebar-nav">
+        <ul class="nav nav-list">
           <li class="nav-header">Categories</li>
           {% for url, name in categories %}
           <li {% if name == active %}class="active"{% endif %}><a href="{{url_for(url)}}">{{name}}</a></li>
           {% endfor %}
-          
         </ul>
-      </div>
-    </div>
+      </div> <!-- well -->
+    </div> <!-- span3 -->
     <div class="span9">
-      <div class="row">
-      <ul class="thumbnails">
+      <div class="cap"></div>
+    </div>
+    <div class="span9 listingbox">
+      <div class="row-fluid">
+        <ul class="thumbnails">
         {% set count=0 %}
         {% for listing in listings%}
         {{thumb(listing.title, listing.id, listing.price, listing.image)}}
 
         {% set count = count + 1 %}
         {% if count == 3 %}
-       </ul>
-      </div>
-      <div class="row">
+        {% set count=0 %}
+        </ul>
+      </div> <!-- row-fluid listings -->
+    
+      <div class="row-fluid">
         <ul class="thumbnails">
 
       {% endif %}
@@ -63,6 +69,7 @@
         {% endfor %}
 
       </ul>
+      </div>
     </div>
     </div>
   </div>

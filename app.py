@@ -17,6 +17,7 @@ lm.init_app(app)
 lm.login_view = 'login'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://josh:a@localhost/mydb'
+# app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 Session = sessionmaker(bind=engine)
 app_session = Session()

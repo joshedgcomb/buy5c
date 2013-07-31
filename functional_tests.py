@@ -94,7 +94,8 @@ class Buy5cTestCase(unittest.TestCase):
                 title=title,
                 description=description,
                 category=category_id,
-                price=price,  #arbitrary value since non number values are not accepted
+                price=price,
+                image=None
                 ))
 
             listing = session.query(Listing).filter(Listing.title == 'listing creation test title').first()

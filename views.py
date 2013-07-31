@@ -190,7 +190,6 @@ def sell():
                                     email=g.user.email)
 
         category_id = session.query(Category).filter(Category.name == category).first()
-
         listing = Listing(title, description, category_id, g.user.id, datetime.utcnow(), price, image)
         session.add(listing)
         session.commit()

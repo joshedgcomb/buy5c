@@ -58,12 +58,12 @@ class Listing(Base):
     user_id = Column(Integer, ForeignKey('user.id'))
 
     category_id = Column(Integer, ForeignKey('category.id'),
-                            index=True)
+                         index=True)
     price = Column(String(64))
     image = Column(LargeBinary)
 
-    Index('listing_search_index', func.to_tsvector('english', 'title'), 
-            func.to_tsvector('english', 'description'), postgresql_using='gin')
+    listing_search_index = Index('listing_search_index', func.to_tsvector('english', 'title'),
+                                 func.to_tsvector('english', 'description'), postgresql_using='gin')
 
 
     def __init__(self, title, description, category_id, user_id, time_posted, price, image=None):
