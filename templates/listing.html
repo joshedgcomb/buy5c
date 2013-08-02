@@ -78,11 +78,11 @@
         <p class="lead">{{description}}</p>
       {% if user_id == listing_user_id %}
       <form action="{{url_for('edit_listing', listing_id=listing_id)}}" method="GET">
-        <input class="btn btn-large btn-sucess" type="submit" value="Edit your listing">
+        <input class="btn btn-large btn-primary" type="submit" value="Edit your listing">
       </form>
       {% else %}
 			<form action="MAILTO:{{email}}" method="POST" enctype="text/plain">
-				<input class="btn btn-large btn-sucess" type="submit" value="Email the seller">
+				<input class="btn btn-large btn-block btn-primary" type="submit" value="Email the seller">
 			</form>
       {% endif %}
 

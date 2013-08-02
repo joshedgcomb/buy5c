@@ -39,12 +39,18 @@ def is_number(s):
         return False
 
 
-def get_listings(category=None, page_size=24, page_offset=0, user_id=None):
+def get_listings(category=None, page_size=24, page_offset=0, user_id=None, listing_ids=None):
+    if listing_ids:
+        listings = []
+        for x in listing_ids:
+            listings.append(session.query(Listing).get(x))
+        return listings
+
     # for user specific listing queries, this can only return all of a user's listings
     if user_id:
         user = session.query(User).get(user_id)
         listings = user.listings
-        return listings
+        return listings.reverse()
 
     if category is None:
         listings = session.query(Listing).order_by(Listing.id.desc()).limit(page_size).offset(page_size*page_offset).all()
@@ -59,7 +65,7 @@ def get_listings(category=None, page_size=24, page_offset=0, user_id=None):
 def get_image(listing_id):
     image_binary = session.query(Listing).get(listing_id).image
     if image_binary is None:
-        return False
+        return None
     return send_file(io.BytesIO(image_binary))
 
 
@@ -72,6 +78,12 @@ def before_request():
     g.user = current_user
     global session
     session = app.config['SESSION']
+    session.rollback()
+
+@app.after_request
+def after_request(response):
+    response.headers['Cache-Control'] = 'public, max-age=0'
+    return response
 
 
 # function telling the login manager how to load a user
@@ -168,6 +180,8 @@ def sell():
         if 'image' in request.files:
             image_file = request.files['image'].read()
             image = buffer(image_file)
+            if image_file == '':
+                image = None
 
         if len(title) == 0:
             return render_template('sell.html',
@@ -383,8 +397,10 @@ def edit_listing(listing_id):
         image = None
         if 'image' in request.files:
             image_file = request.files['image'].read()
-            image = buffer(image_file)
-            listing.image = image
+            if image_file != '':
+                image = buffer(image_file)
+                listing.image = image
+
 
         if title != '':
             listing.title = title
@@ -400,7 +416,7 @@ def edit_listing(listing_id):
             listing.price = price
 
         session.commit()
-        return redirect(url_for('listing', listing_id=listing.id))
+        return redirect(url_for('listing', listing_id=listing_id))
 
 
 
@@ -411,18 +427,33 @@ def edit_listing(listing_id):
 def account():
     if g.user.is_authenticated():
         listings = get_listings(user_id=g.user.id)
-        return render_template('account.html',
-                               email=g.user.email,
-                               listings=listings
-                               )
+        if listings is not None:
+            return render_template('account.html',
+                                    email=g.user.email,
+                                    listings=listings
+                                    )
+        else:
+            return render_template('account.html',
+                                    email=g.user.email,
+                                    message="No listings found.")
     return redirect(url_for('login'))
 
-# @app.route('/search', methods=['POST'])
-def search(query_string):
-    # terms = request.form['terms']
-    query_string = "select * from listing where to_tsvector('english', description) @@ plainto_tsquery('english','" + query_string + "')"
-    listings = session.execute(query_string)
-    return listings.fetchall()
+@app.route('/search', methods=['POST'])
+def search():
+    if g.user.is_authenticated():
+        terms = request.form['terms']
+        query_string = "select * from listing where tsv @@ plainto_tsquery('english', :terms)"
+        listings = session.execute(query_string, {'terms':terms}).fetchall()
+
+        listing_ids = []
+        for listing in listings:
+            listing_ids.append(listing.id)
+        listing_ids.reverse()
+        count = len(listings)
+        return render_template('index.html',
+                                email=g.user.email,
+                                listings=get_listings(listing_ids=listing_ids),
+                                message="Search returned " + str(count) + " listings.")
 
 
 @app.route('/about')

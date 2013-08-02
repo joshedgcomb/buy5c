@@ -20,7 +20,8 @@
 <li class="span4">
   <div class="thumbnail">
     {% if image == '' %}
-    <img src="{{url_for('static', filename='images/demo/browser-pic-4.jpg')}}" alt="image of {{title}}">  
+    <img src="{{url_for('get_image', listing_id=listing_id)}}" alt="image of {{title}}"> 
+    fuck you sqlalchemy 
     {% elif image is not none %}
     <img src="{{url_for('get_image', listing_id=listing_id)}}" alt="image of {{title}}">
     {% else %}

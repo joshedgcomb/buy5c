@@ -3,6 +3,7 @@ from sqlalchemy import *
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.sql.expression import func
 from sqlalchemy.schema import Index
+from sqlalchemy.dialects.postgresql import BYTEA
 
 ROLE_USER = 0
 ROLE_ADMIN = 1
@@ -59,11 +60,8 @@ class Listing(Base):
 
     category_id = Column(Integer, ForeignKey('category.id'),
                          index=True)
-    price = Column(String(64))
+    price = Column(String(64), index=True)
     image = Column(LargeBinary)
-
-    listing_search_index = Index('listing_search_index', func.to_tsvector('english', 'title'),
-                                 func.to_tsvector('english', 'description'), postgresql_using='gin')
 
 
     def __init__(self, title, description, category_id, user_id, time_posted, price, image=None):

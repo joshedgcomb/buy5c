@@ -309,6 +309,9 @@ class Buy5cTestCase(unittest.TestCase):
         user_id = 777
         listing = Listing(other_title, description, category_id, user_id, time_posted, price, image)
 
+        session.add(listing)
+        session.commit()
+
         with self.app as c:
             c.post('/login', data=dict(
             email=email,
